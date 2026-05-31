@@ -1,0 +1,14 @@
+{
+  "whatsapp": "7760766540",
+  "instagram": "mktech_projects",
+  "email": "support@mktechprojects.com",
+  "youtube": "mktech_projects",
+  "address": "Tech Park Sector-62, Block C, Noida, India",
+  "priceBasic": "2,999",
+  "priceIntermediate": "6,999",
+  "priceAdvanced": "14,999",
+  "featuresBasic": "Standard Arduino UNO/Nano Core\nInterfacing up to 2 basic sensors\nFully commented source code\nCircuit connection diagram\n1-Week post-delivery troubleshooting",
+  "featuresIntermediate": "ESP32 / Arduino Mega Hardware\nUp to 4 active sensors and actuators\nCustom algorithm optimization\nStep-by-step assembly guide\nHigh-quality circuit design\n2-Weeks active technical support",
+  "featuresAdvanced": "Cloud telemetry (Blynk, Adafruit, AWS)\nCustom high-density PCB schematic\nMulti-sensor data logging & dashboards\nProfessional project report structure\nLive video demonstration & guide\n30 days premium support",
+  "featuresCustom": "Fully customized component sourcing\nMulti-layer high precision PCB layouts\nFull tech stack web-control integration\nComprehensive patent/report documentation\nContinuous dedicated support"
+}

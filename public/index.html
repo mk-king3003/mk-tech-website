@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>MK Tech | Innovative Arduino Projects & Smart Electronics Solutions</title>
+    <meta name="description" content="MK Tech provides premium Arduino, ESP32, IoT, and custom electronics-based projects for students, hobbyists, and businesses. Professional coding and PCB design services.">
+    <meta name="keywords" content="Arduino Projects, ESP32, IoT Projects, PCB Designing, Electronics Solutions, MK Tech, Custom Coding Support, Sensor Projects">
+    <meta name="author" content="MK Tech">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (Facebook / LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MK Tech | Smart Electronics & Arduino Projects">
+    <meta property="og:description" content="Build Your Ideas into Reality with MK Tech's Arduino, ESP32, and IoT projects. Coding, troubleshooting, and PCB designing support.">
+    <meta property="og:url" content="https://mktech-projects.com">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MK Tech | Smart Electronics Solutions">
+    <meta name="twitter:description" content="Innovative Arduino Projects, IoT, Custom Electronics, and PCB Design with full technical coding support.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <span class="logo-text">MK <span class="highlight">Tech</span></span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="#home" class="nav-item active" id="nav-lnk-home">Home</a>
+                <a href="#services" class="nav-item" id="nav-lnk-services">Services</a>
+                <a href="#projects" class="nav-item" id="nav-lnk-projects">Projects</a>
+                <a href="store.html" class="nav-item" id="nav-lnk-store">Store <span style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; margin-left: 4px; vertical-align: middle;">Shop</span></a>
+                <a href="#pricing" class="nav-item" id="nav-lnk-pricing">Pricing</a>
+                <a href="#about" class="nav-item" id="nav-lnk-about">About Us</a>
+                <a href="#contact" class="nav-item" id="nav-lnk-contact">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                
+                <!-- Mobile Navigation Menu Toggle -->
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Home / Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="hero-glow-1"></div>
+            <div class="hero-glow-2"></div>
+            <div class="grid-overlay"></div>
+            
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        <span class="badge-text">Next-Gen Electronics Engineering</span>
+                    </div>
+                    <h1 class="hero-title">Innovative Arduino Projects & <span class="gradient-text">Smart Electronics Solutions</span></h1>
+                    <p class="hero-subtitle">Build Your Ideas into Reality</p>
+                    <p class="hero-description">
+                        MK Tech is your premier engineering and prototyping partner. We specialize in custom Arduino, ESP32, IoT systems, PCB designs, and comprehensive programming services. Whether you are a student preparing a final-year project, a hobbyist creating a smart device, or an entrepreneur engineering a prototype, we bring your concepts to life.
+                    </p>
+                    <div class="hero-ctas">
+                        <a href="#projects" class="btn btn-primary" id="btn-hero-projects">
+                            <span>View Projects</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="btn btn-outline" id="btn-hero-contact">
+                            <span>Contact Us</span> <i class="fa-regular fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Graphic Hero Art -->
+                <div class="hero-visual">
+                    <div class="circuit-board-mock">
+                        <!-- Arduino Board Visual -->
+                        <div class="hardware-board board-arduino active">
+                            <div class="board-silk">ARDUINO UNO</div>
+                            <div class="usb-port"></div>
+                            <div class="power-jack"></div>
+                            <div class="atmega-chip">
+                                <div class="chip-notch"></div>
+                                <span class="chip-text">ATMEGA328P-PU</span>
+                            </div>
+                            <div class="crystal-oscillator"></div>
+                            <div class="pin-headers headers-top"></div>
+                            <div class="pin-headers headers-bottom"></div>
+                            <div class="board-led led-power glowing-orange"></div>
+                            <div class="board-led led-rx tx-pulse delay-1"></div>
+                            <div class="board-led led-tx tx-pulse"></div>
+                        </div>
+
+                        <!-- ESP32 Board Visual -->
+                        <div class="hardware-board board-esp32">
+                            <div class="board-silk">ESP32-WROOM-32D</div>
+                            <div class="micro-usb"></div>
+                            <div class="wroom-module">
+                                <div class="metal-shield">ESP32</div>
+                                <div class="pcb-antenna">
+                                    <div class="antenna-trace"></div>
+                                    <!-- Wi-Fi Radiation Waves -->
+                                    <div class="wifi-wave wave-1"></div>
+                                    <div class="wifi-wave wave-2"></div>
+                                    <div class="wifi-wave wave-3"></div>
+                                </div>
+                            </div>
+                            <div class="button-boot">BOOT</div>
+                            <div class="button-en">EN</div>
+                            <div class="pin-headers-esp headers-left"></div>
+                            <div class="pin-headers-esp headers-right"></div>
+                            <div class="board-led led-esp-power glowing-red"></div>
+                            <div class="board-led led-esp-blue blinking-blue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Services Section -->
+        <section class="services-section" id="services">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Our Specialized <span class="gradient-text">Services</span></h2>
+                    <p class="section-subtitle">High-fidelity engineering services curated for students, researchers, and tech creators.</p>
+                </div>
+                
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <h3>Arduino Projects</h3>
+                        <p>Complete design and programming of UNO, Mega, Nano, and custom Arduino microcontrollers tailored to specific project sensors and actuators.</p>
+                    </div>
+                    <!-- Service 2 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-wifi"></i></div>
+                        <h3>ESP32 Projects</h3>
+                        <p>Advanced dual-core controller implementations featuring high-speed processing, Wi-Fi web controllers, and Bluetooth BLE communications.</p>
+                    </div>
+                    <!-- Service 3 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                        <h3>IoT Projects</h3>
+                        <p>Cloud-based integrations using Blynk, Adafruit IO, AWS IoT, and ThingSpeak. Full real-time telemetry pipelines and dashboard triggers.</p>
+                    </div>
+                    <!-- Service 4 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                        <h3>School & College Mini Projects</h3>
+                        <p>Simplified, educational, and high-impact electronic displays and science-fair exhibits. Includes clear functional explanations.</p>
+                    </div>
+                    <!-- Service 5 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-award"></i></div>
+                        <h3>Final Year Projects</h3>
+                        <p>Comprehensive, engineering-grade research projects with advanced sensors, robust structures, thesis reports, and fully working prototypes.</p>
+                    </div>
+                    <!-- Service 6 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-gears"></i></div>
+                        <h3>Custom Electronics Projects</h3>
+                        <p>Bespoke electronic solution design, sensor integration, autonomous motor drivers, relays, smart solar components, and logic controllers.</p>
+                    </div>
+                    <!-- Service 7 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                        <h3>Sensor-based Projects</h3>
+                        <p>Multi-sensor environments tracking temperature, humidity, ultrasonic proximity, gas detection, GPS navigation, and biometric scanners.</p>
+                    </div>
+                    <!-- Service 8 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-bezier-curve"></i></div>
+                        <h3>PCB Designing</h3>
+                        <p>Professional circuit schematics to physical PCB routing using EasyEDA/Altium. Optimized tracks, grounding planes, and exportable Gerber files.</p>
+                    </div>
+                    <!-- Service 9 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+                        <h3>Coding & Programming Support</h3>
+                        <p>Clean, efficient, and well-commented C/C++ (Arduino IDE), MicroPython, and Python backend scripts. Custom algorithm implementations.</p>
+                    </div>
+                    <!-- Service 10 -->
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                        <h3>Project Troubleshooting</h3>
+                        <p>Expert hardware debugging and logic fixing. We identify wiring faults, sensor calibration issues, and optimize firmware bottlenecks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Projects Gallery Section -->
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <div class="projects-header-wrapper">
+                    <div class="section-header">
+                        <h2 class="section-title">Projects <span class="gradient-text">Gallery</span></h2>
+                        <p class="section-subtitle">Explore our state-of-the-art electronics assemblies and smart hardware innovations.</p>
+                    </div>
+                    
+                    <!-- Search & Filter Controls -->
+                    <div class="gallery-controls">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="project-search" placeholder="Search projects by name, sensor..." aria-label="Search Projects">
+                        </div>
+                        <div class="filter-pills" id="filter-pills">
+                            <button class="pill active" data-category="all">All</button>
+                            <button class="pill" data-category="Arduino">Arduino</button>
+                            <button class="pill" data-category="ESP32">ESP32</button>
+                            <button class="pill" data-category="IoT">IoT</button>
+                            <button class="pill" data-category="Custom">Custom</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dynamic Projects Grid -->
+                <div class="projects-grid" id="projects-grid">
+                    <!-- Loaded dynamically via app.js -->
+                    <div class="loader-placeholder">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading Project Database...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Pricing Section -->
+        <section class="pricing-section" id="pricing">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Flexible <span class="gradient-text">Project Packages</span></h2>
+                    <p class="section-subtitle">Affordable and transparent engineering tiers structured to match your project size.</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <!-- Pricing Card 1 -->
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Simple</div>
+                        <h3 class="tier-name">Basic Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-basic">2,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Ideal for school mini projects, basic sensor displays, and minor programming tweaks.</p>
+                        <ul class="pricing-features" id="features-list-basic">
+                            <li><i class="fa-solid fa-check feature-check"></i> Standard Arduino UNO/Nano Core</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Interfacing up to 2 basic sensors</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Fully commented source code</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Circuit connection diagram</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 1-Week post-delivery troubleshooting</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Basic Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 2 (Featured) -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge featured-badge">Popular</div>
+                        <h3 class="tier-name">Intermediate Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-intermediate">6,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Perfect for university mini-projects, complex robots, and specialized sensor controllers.</p>
+                        <ul class="pricing-features" id="features-list-intermediate">
+                            <li><i class="fa-solid fa-check feature-check"></i> ESP32 / Arduino Mega Hardware</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Up to 4 active sensors and actuators</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Custom algorithm optimization</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Step-by-step assembly guide</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> High-quality circuit design</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 2-Weeks active technical support</li>
+                        </ul>
+                        <button class="btn btn-primary pricing-btn" data-tier="Intermediate Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 3 -->
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Advanced</div>
+                        <h3 class="tier-name">Advanced Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-advanced">14,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Engineered for IoT hubs, web dashboards, final-year complex projects, and custom PCBs.</p>
+                        <ul class="pricing-features" id="features-list-advanced">
+                            <li><i class="fa-solid fa-check feature-check"></i> Cloud telemetry (Blynk, Adafruit, AWS)</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Custom high-density PCB schematic</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Multi-sensor data logging & dashboards</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Professional project report structure</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Live video demonstration & guide</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 30 days premium support</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Advanced Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 4 -->
+                    <div class="pricing-card custom-tier">
+                        <div class="pricing-badge">Bespoke</div>
+                        <h3 class="tier-name">Custom Project</h3>
+                        <div class="price-container">
+                            <span class="price-amount">Custom</span>
+                        </div>
+                        <p class="tier-desc">For specialized startup prototyping, complete industrial solutions, and research papers.</p>
+                        <ul class="pricing-features" id="features-list-custom">
+                            <li><i class="fa-solid fa-check feature-check"></i> Fully customized component sourcing</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Multi-layer high precision PCB layouts</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Full tech stack web-control integration</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Comprehensive patent/report documentation</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Continuous dedicated support</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Custom Project">Inquire Now <i class="fa-solid fa-comment-dots"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. About Us -->
+        <section class="about-section text-center" id="about" style="background-color: var(--bg-secondary);">
+            <div class="container" style="max-width: 850px;">
+                <!-- About Us Column -->
+                <div class="about-column" style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        <span class="badge-text">Engineers at Heart</span>
+                    </div>
+                    <h2 class="section-title">About <span class="gradient-text">MK Tech</span></h2>
+                    <p class="about-text">
+                        MK Tech provides Arduino, ESP32, IoT and electronics-based projects for students, hobbyists and customers. We create custom solutions and provide coding support.
+                    </p>
+                    <p class="about-text">
+                        Founded by hardware enthusiasts, our mission is to eliminate the intimidation factor from hardware development. We guide you from basic component wirings to cloud dashboard deployments, providing reliable schematics, optimized code, and high-quality physical assemblies.
+                    </p>
+                    <div class="about-stats" style="justify-content: center; width: 100%; max-width: 600px; margin: 24px auto 0 auto;">
+                        <div class="stat-item">
+                            <span class="stat-num">500+</span>
+                            <span class="stat-lbl">Projects Delivered</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">99%</span>
+                            <span class="stat-lbl">Success Rate</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-num">24/7</span>
+                            <span class="stat-lbl">Expert Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Contact Section -->
+        <section class="contact-section" id="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <!-- Column 1: Info and Slogan -->
+                    <div class="contact-info-panel">
+                        <h2 class="section-title">Ready to Start Your <span class="gradient-text">Next Project?</span></h2>
+                        <p class="contact-intro">Fill out our rapid inquiry form, and our engineering team will get back to you within 24 hours with a custom quotation and solution framework.</p>
+                        
+                        <div class="contact-details">
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                <div class="detail-text">
+                                    <h4>Our Lab Address</h4>
+                                    <p class="dynamic-address-text">Tech Park Sector-62, Block C, Noida, India</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                                <div class="detail-text">
+                                    <h4>Email Support</h4>
+                                    <p class="dynamic-email-text">support@mktechprojects.com</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                                <div class="detail-text">
+                                    <h4>WhatsApp Support</h4>
+                                    <p class="dynamic-whatsapp-text">+91 98765 43210</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2: Interactive Contact Form -->
+                    <div class="contact-form-panel">
+                        <form id="main-contact-form" class="interactive-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-name">Full Name <span class="required">*</span></label>
+                                    <input type="text" id="contact-name" name="name" placeholder="John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-phone">Phone Number <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                                    <input type="tel" id="contact-phone" name="phone" placeholder="+91 98765-43210">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                                <input type="email" id="contact-email" name="email" placeholder="john@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-requirement-select">Select Project Category <span class="required">*</span></label>
+                                <select id="contact-requirement-select" name="category" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="Arduino">Arduino Custom Project</option>
+                                    <option value="ESP32">ESP32 & Wi-Fi Automation</option>
+                                    <option value="IoT">IoT Cloud Integration</option>
+                                    <option value="PCB">PCB Design & Layout</option>
+                                    <option value="Troubleshooting">Coding & Debugging Support</option>
+                                    <option value="Other">Other Custom Electronics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Detail Your Project Requirements <span class="required">*</span></label>
+                                <textarea id="contact-message" name="message" rows="5" placeholder="Please describe what your circuit needs to do, which sensors you want to use, and your deadline..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" id="form-submit-btn">
+                                <span>Submit Requirements</span> <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 8. Footer Section -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#home" class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="logo-text">MK <span class="highlight">Tech</span></span>
+                </a>
+                <p class="brand-desc">Innovative Arduino Projects, custom ESP32 electronics controllers, and premium IoT solutions designed to turn your technical engineering ideas into working prototypes.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/919876543210" target="_blank" class="social-icon whatsapp dynamic-whatsapp-link" title="WhatsApp Support" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/mktech_projects" target="_blank" class="social-icon instagram dynamic-instagram-link" title="Instagram Profile" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/c/mktech_projects" target="_blank" class="social-icon youtube dynamic-youtube-link" title="YouTube Channel" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="mailto:support@mktechprojects.com" class="social-icon email dynamic-email-link" title="Email Us" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Our Sections</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Engineering Services</a></li>
+                    <li><a href="#projects">Project Gallery</a></li>
+                    <li><a href="#pricing">Price Matrix</a></li>
+                    <li><a href="#about">About Our Lab</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-services-list">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li><a href="#services">Arduino Firmware</a></li>
+                    <li><a href="#services">ESP32 & NodeMCU Controls</a></li>
+                    <li><a href="#services">IoT Telemetry Dashboards</a></li>
+                    <li><a href="#services">Custom PCB Schematics</a></li>
+                    <li><a href="#services">Firmware Debugging</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Connect With Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span class="dynamic-address-text">Tech Park Sector-62, Noida, India</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span class="dynamic-email-text">support@mktechprojects.com</span></p>
+                <p><i class="fa-brands fa-whatsapp"></i> <span class="dynamic-whatsapp-text">+91 98765 43210</span></p>
+                <p class="work-hours"><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 MK Tech. All Rights Reserved. Engineered with Passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Project Inquiry Form -->
+    <div id="inquiry-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Project <span class="gradient-text">Inquiry</span></h3>
+                <button class="modal-close" id="inquiry-close-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="inquiry-subtitle">You are inquiring about: <strong id="inquiry-project-name" class="highlight">Blind Walking Stick</strong></p>
+                <form id="project-inquiry-form" class="interactive-form">
+                    <input type="hidden" id="inquiry-project-id" name="project_id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inquiry-name">Your Name <span class="required">*</span></label>
+                            <input type="text" id="inquiry-name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inquiry-phone">Phone Number <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                            <input type="tel" id="inquiry-phone" placeholder="+91 98765-43210">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inquiry-email">Email Address <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                        <input type="email" id="inquiry-email" placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inquiry-details">Additional Customization Requirements</label>
+                        <textarea id="inquiry-details" rows="4" placeholder="Mention any extra features, sensor swaps, custom dimensions, or dynamic layouts you require for this project..."></textarea>
+                    </div>
+                    
+                    <div class="inquiry-options-container">
+                        <p class="inquiry-opt-lbl">Choose inquiry channel:</p>
+                        <div class="inquiry-channels">
+                            <button type="button" class="btn btn-success channel-btn active" id="channel-whatsapp">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp Direct
+                            </button>
+                            <button type="button" class="btn btn-primary channel-btn" id="channel-email">
+                                <i class="fa-regular fa-envelope"></i> Email Form
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" id="inquiry-submit-btn">
+                        <span>Send Inquiry</span> <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Password Check -->
+    <div id="admin-auth-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container modal-small">
+            <div class="modal-header">
+                <h3 class="modal-title">Admin <span class="gradient-text">Authentication</span></h3>
+                <button class="modal-close" id="admin-auth-close-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-instructions">Enter password to access the project management dashboard.</p>
+                <form id="admin-auth-form" class="interactive-form">
+                    <div class="form-group">
+                        <label for="admin-passcode">Lab Passcode</label>
+                        <input type="password" id="admin-passcode" placeholder="••••••••" required autocomplete="current-password">
+                        <span class="auth-hint" id="auth-hint-text">Default passcode is <code class="code-box">admin123</code></span>
+                        <div class="error-msg" id="auth-error-msg">Invalid passcode. Please try again.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Access Lab Dashboard</span> <i class="fa-solid fa-lock-open"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Admin Project Manager Dashboard -->
+    <div id="admin-dashboard-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-user-gear"></i> MK Tech <span class="gradient-text">Admin Dashboard</span></h3>
+                <div class="modal-header-actions" style="display: flex; align-items: center; gap: 16px;">
+                    <button class="btn btn-outline" id="admin-logout-btn" style="padding: 6px 16px; font-size: 0.85rem; border-color: #ef4444; color: #ef4444; background: transparent; height: 36px;" title="Sign out from admin session">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                    <button class="modal-close" id="admin-dashboard-close-btn" aria-label="Close modal" style="margin-top: -4px;">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body admin-dashboard-body">
+                
+                <div class="admin-layout-grid">
+                    <!-- Column 1: Add / Edit Form & Profile -->
+                    <div class="admin-form-panel">
+                        <div class="admin-tab-nav" style="display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px; overflow-x: auto; white-space: nowrap;">
+                            <button type="button" class="admin-tab-btn active" data-tab="projects" style="background: transparent; border: none; color: var(--text-primary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid var(--accent-cyan); outline: none;">Project Manager</button>
+                            <button type="button" class="admin-tab-btn" data-tab="store" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Store Manager</button>
+                            <button type="button" class="admin-tab-btn" data-tab="contacts" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Contact Details</button>
+                            <button type="button" class="admin-tab-btn" data-tab="inbox" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">
+                                Inquiries Inbox <span class="badge-count" id="inbox-badge" style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.75rem; margin-left: 4px; font-weight: 800;">0</span>
+                            </button>
+                            <button type="button" class="admin-tab-btn" data-tab="security" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Security</button>
+                        </div>
+                        
+                        <!-- Tab Content 1: Project Form -->
+                        <div class="admin-tab-content active" id="tab-projects">
+                            <h4 class="admin-panel-title" id="admin-form-mode-title" style="border: none; margin-bottom: 16px; padding: 0;">Create New Project</h4>
+                            <form id="admin-project-form" class="interactive-form">
+                            <!-- Hidden project ID for editing -->
+                            <input type="hidden" id="admin-project-id">
+                            
+                            <div class="form-group">
+                                <label for="admin-proj-title">Project Title <span class="required">*</span></label>
+                                <input type="text" id="admin-proj-title" placeholder="e.g. Smart Trash Can" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-proj-category">Controller / Platform <span class="required">*</span></label>
+                                    <select id="admin-proj-category" required>
+                                        <option value="" disabled selected>Select Platform...</option>
+                                        <option value="Arduino">Arduino</option>
+                                        <option value="ESP32">ESP32</option>
+                                        <option value="IoT">IoT</option>
+                                        <option value="Custom">Custom Electronics</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-proj-tags">Key Tags <span class="required">*</span></label>
+                                    <input type="text" id="admin-proj-tags" placeholder="e.g. Wi-Fi, IR Sensor, Servo" required>
+                                    <span class="field-hint">Comma separated values</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="admin-proj-desc">Detailed Project Description <span class="required">*</span></label>
+                                <textarea id="admin-proj-desc" rows="4" placeholder="Explain what the project accomplishes, parts utilized, and key functionality..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Project Visual Image <span class="required">*</span></label>
+                                <div class="image-upload-wrapper">
+                                    <!-- Hidden File Input -->
+                                    <input type="file" id="admin-proj-image-file" accept="image/*" class="file-input-hidden">
+                                    
+                                    <div class="image-upload-dropzone" id="image-upload-dropzone">
+                                        <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                        <p class="dropzone-text">Click to choose image or drag & drop</p>
+                                        <span class="dropzone-hint">Supports PNG, JPG, JPEG (Max 1MB)</span>
+                                    </div>
+                                    
+                                    <!-- Image Preview Panel -->
+                                    <div class="image-upload-preview" id="image-upload-preview-container">
+                                        <img id="image-preview" src="" alt="Project Preview">
+                                        <button type="button" class="remove-preview-btn" id="remove-preview-btn" title="Remove image">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Text Fallback URL -->
+                                    <div class="fallback-url-container">
+                                        <label for="admin-proj-image-url">Or paste image URL:</label>
+                                        <input type="url" id="admin-proj-image-url" placeholder="https://images.unsplash.com/photo-...">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-form-actions">
+                                <button type="submit" class="btn btn-primary" id="admin-save-btn">
+                                    <span>Add Project Card</span> <i class="fa-solid fa-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline" id="admin-cancel-edit-btn" style="display: none;">
+                                    Cancel Edit
+                                </button>
+                            </div>
+                        </form>
+                        </div>
+                        
+                        <!-- Tab Content: Store Form -->
+                        <div class="admin-tab-content" id="tab-store" style="display: none;">
+                            <h4 class="admin-panel-title" id="admin-store-form-mode-title" style="border: none; margin-bottom: 16px; padding: 0;">Create New Hardware Kit</h4>
+                            <form id="admin-store-form" class="interactive-form">
+                            <!-- Hidden product ID for editing -->
+                            <input type="hidden" id="admin-store-product-id">
+                            
+                            <div class="form-group">
+                                <label for="admin-store-title">Kit / Product Title <span class="required">*</span></label>
+                                <input type="text" id="admin-store-title" placeholder="e.g. Blynk Home Automation Kit" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-store-category">Category <span class="required">*</span></label>
+                                    <select id="admin-store-category" required>
+                                        <option value="" disabled selected>Select Category...</option>
+                                        <option value="IoT Automation">IoT Automation</option>
+                                        <option value="Robotics">Robotics</option>
+                                        <option value="Smart Agriculture">Smart Agriculture</option>
+                                        <option value="Custom Electronics">Custom Electronics</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-store-tags">Key Tags <span class="required">*</span></label>
+                                    <input type="text" id="admin-store-tags" placeholder="e.g. ESP32, Blynk, 4-Channel Relay" required>
+                                    <span class="field-hint">Comma separated values</span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-store-price">Retail Price (₹) <span class="required">*</span></label>
+                                    <input type="number" id="admin-store-price" min="0" placeholder="e.g. 1499" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-store-orig-price">Original Price (₹) <span class="field-hint">(Optional strikeout)</span></label>
+                                    <input type="number" id="admin-store-orig-price" min="0" placeholder="e.g. 1999">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-store-stock">Stock Qty <span class="required">*</span></label>
+                                    <input type="number" id="admin-store-stock" min="0" placeholder="e.g. 5" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="admin-store-desc">Product Description <span class="required">*</span></label>
+                                <textarea id="admin-store-desc" rows="3" placeholder="Explain the kit functionality, firmware capabilities, target audience..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="admin-store-included">Included Box Materials <span class="required">*</span></label>
+                                <textarea id="admin-store-included" rows="2" placeholder="e.g. ESP32 NodeMCU Development Board, 4-Channel 5V Relays, Custom schematic sheet, firmware download guide..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Kit Visual Image <span class="required">*</span></label>
+                                <div class="image-upload-wrapper">
+                                    <!-- Hidden File Input -->
+                                    <input type="file" id="admin-store-image-file" accept="image/*" class="file-input-hidden">
+                                    
+                                    <div class="image-upload-dropzone" id="store-image-upload-dropzone">
+                                        <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                        <p class="dropzone-text">Click to choose image or drag & drop</p>
+                                        <span class="dropzone-hint">Supports PNG, JPG, JPEG (Max 1MB)</span>
+                                    </div>
+                                    
+                                    <!-- Image Preview Panel -->
+                                    <div class="image-upload-preview" id="store-image-upload-preview-container">
+                                        <img id="store-image-preview" src="" alt="Product Preview">
+                                        <button type="button" class="remove-preview-btn" id="store-remove-preview-btn" title="Remove image">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Text Fallback URL -->
+                                    <div class="fallback-url-container">
+                                        <label for="admin-store-image-url">Or paste image URL:</label>
+                                        <input type="url" id="admin-store-image-url" placeholder="https://images.unsplash.com/photo-...">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="admin-form-actions">
+                                <button type="submit" class="btn btn-primary" id="admin-store-save-btn-element">
+                                    <span>Add Store Product</span> <i class="fa-solid fa-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline" id="admin-store-cancel-edit-btn" style="display: none;">
+                                    Cancel Edit
+                                </button>
+                            </div>
+                        </form>
+                        </div>
+                        
+                        <!-- Tab Content 2: Contact/Profile settings -->
+                        <div class="admin-tab-content" id="tab-contacts" style="display: none;">
+                            <h4 class="admin-panel-title" style="border: none; margin-bottom: 16px; padding: 0;">Update Contact Profile</h4>
+                            <form id="admin-profile-form" class="interactive-form">
+                                <div class="form-group">
+                                    <label for="admin-prof-whatsapp">WhatsApp Number <span class="required">*</span></label>
+                                    <input type="text" id="admin-prof-whatsapp" placeholder="+91 98765-43210" required>
+                                    <span class="field-hint">Format: +91 98765-43210</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-prof-instagram">Instagram Handle <span class="required">*</span></label>
+                                    <input type="text" id="admin-prof-instagram" placeholder="mktech_projects" required>
+                                    <span class="field-hint">Username profile key without '@'</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-prof-email">Contact Email Address <span class="required">*</span></label>
+                                    <input type="email" id="admin-prof-email" placeholder="support@mktechprojects.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-prof-youtube">YouTube Username / ID</label>
+                                    <input type="text" id="admin-prof-youtube" placeholder="mktech_projects">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-prof-address">Lab Address <span class="required">*</span></label>
+                                    <textarea id="admin-prof-address" rows="3" placeholder="Tech Park Sector-62, Block C, Noida, India" required></textarea>
+                                </div>
+                                
+                                <h4 class="admin-panel-title" style="border: none; margin-top: 24px; margin-bottom: 12px; padding: 0;">Package Pricing Settings (INR)</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="admin-price-basic">Basic Package (₹) <span class="required">*</span></label>
+                                        <input type="text" id="admin-price-basic" placeholder="2,999" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-price-intermediate">Intermediate (₹) <span class="required">*</span></label>
+                                        <input type="text" id="admin-price-intermediate" placeholder="6,999" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-price-advanced">Advanced Package (₹) <span class="required">*</span></label>
+                                    <input type="text" id="admin-price-advanced" placeholder="14,999" required>
+                                </div>
+                                
+                                <h4 class="admin-panel-title" style="border: none; margin-top: 24px; margin-bottom: 12px; padding: 0;">Pricing Features Settings (One per line)</h4>
+                                <div class="form-group">
+                                    <label for="admin-features-basic">Basic Package Features</label>
+                                    <textarea id="admin-features-basic" rows="3" placeholder="Standard Arduino UNO/Nano Core&#10;Interfacing up to 2 basic sensors&#10;Fully commented source code&#10;Circuit connection diagram&#10;1-Week post-delivery troubleshooting"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-features-intermediate">Intermediate Features</label>
+                                    <textarea id="admin-features-intermediate" rows="3" placeholder="ESP32 / Arduino Mega Hardware&#10;Up to 4 active sensors and actuators&#10;Custom algorithm optimization&#10;Step-by-step assembly guide&#10;High-quality circuit design&#10;2-Weeks active technical support"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-features-advanced">Advanced Features</label>
+                                    <textarea id="admin-features-advanced" rows="3" placeholder="Cloud telemetry (Blynk, Adafruit, AWS)&#10;Custom high-density PCB schematic&#10;Multi-sensor data logging & dashboards&#10;Professional project report structure&#10;Live video demonstration & guide&#10;30 days premium support"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-features-custom">Custom Features</label>
+                                    <textarea id="admin-features-custom" rows="3" placeholder="Fully customized component sourcing&#10;Multi-layer high precision PCB layouts&#10;Full tech stack web-control integration&#10;Comprehensive patent/report documentation&#10;Continuous dedicated support"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary" id="admin-profile-save-btn">
+                                    <span>Save Settings & Pricing</span> <i class="fa-solid fa-save"></i>
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Tab Content 3: Inquiries Inbox -->
+                        <div class="admin-tab-content" id="tab-inbox" style="display: none;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px;">
+                                <h4 class="admin-panel-title" style="border: none; margin: 0; padding: 0;">Customer Inquiries Inbox</h4>
+                                <button type="button" class="btn btn-outline" id="admin-clear-inbox-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ef4444; color: #ef4444; background: transparent;">
+                                    <i class="fa-solid fa-trash-sweep"></i> Clear All
+                                </button>
+                            </div>
+                            <div class="admin-inbox-list" id="admin-inbox-list" style="display: flex; flex-direction: column; gap: 16px; max-height: 52vh; overflow-y: auto; padding-right: 8px;">
+                                <!-- Populated dynamically via app.js -->
+                            </div>
+                        </div>
+                        
+                        <!-- Tab Content 4: Security / Change Password -->
+                        <div class="admin-tab-content" id="tab-security" style="display: none;">
+                            <h4 class="admin-panel-title" style="border: none; margin-bottom: 16px; padding: 0;">Update Admin Passcode</h4>
+                            <form id="admin-security-form" class="interactive-form">
+                                <div class="form-group">
+                                    <label for="admin-current-passcode">Current Passcode <span class="required">*</span></label>
+                                    <input type="password" id="admin-current-passcode" placeholder="••••••••" required autocomplete="current-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-new-passcode">New Passcode <span class="required">*</span></label>
+                                    <input type="password" id="admin-new-passcode" placeholder="••••••••" required autocomplete="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-confirm-passcode">Confirm New Passcode <span class="required">*</span></label>
+                                    <input type="password" id="admin-confirm-passcode" placeholder="••••••••" required autocomplete="new-password">
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="admin-security-save-btn">
+                                    <span>Update Passcode</span> <i class="fa-solid fa-key"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2: Current Projects / Store Inventory List -->
+                    <div class="admin-list-panel">
+                        <!-- Projects List Heading -->
+                        <div id="admin-projects-title-container">
+                            <h4 class="admin-panel-title">Current Projects Inventory (<span id="admin-project-count">0</span>)</h4>
+                        </div>
+                        <!-- Store List Heading -->
+                        <div id="admin-store-title-container" style="display: none;">
+                            <h4 class="admin-panel-title">Store Kits Inventory (<span id="admin-store-count">0</span>)</h4>
+                        </div>
+                        
+                        <!-- Projects List Container -->
+                        <div class="admin-projects-list" id="admin-projects-list">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                        <!-- Store List Container -->
+                        <div class="admin-projects-list" id="admin-store-list" style="display: none;">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Action Button -->
+    <a href="https://wa.me/919876543210?text=Hi%20MK%20Tech%2C%20I%20am%20interested%20in%20your%20Arduino%20and%20electronics%20project%20services." class="whatsapp-floating" id="whatsapp-floating" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="WhatsApp Chat">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="whatsapp-badge">Chat with Us</span>
+    </a>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Core Javascript Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

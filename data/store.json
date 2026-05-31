@@ -1,0 +1,53 @@
+[
+  {
+    "id": "kit-1",
+    "title": "Blynk Home Automation Kit",
+    "price": "1,899",
+    "originalPrice": "2,499",
+    "category": "IoT Automation",
+    "stock": 5,
+    "tags": [
+      "ESP32",
+      "Relays",
+      "Blynk App",
+      "Home Automation"
+    ],
+    "description": "Complete 4-channel smart home automation kit. Control lights, fans, and home appliances wirelessly over local Wi-Fi or cellular networks using the Blynk cloud application dashboard. Fully soldered with isolation optocouplers and step-down power adapters.",
+    "includedComponents": "Fully soldered ESP32 control board, 4-Channel isolated relay block, acrylic layout frame, 5V power adapter, connecting wires, full source code and setup manual.",
+    "image": "https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "kit-2",
+    "title": "Obstacle Avoiding Robot Kit",
+    "price": "3,499",
+    "originalPrice": "4,299",
+    "category": "Robotics",
+    "stock": 3,
+    "tags": [
+      "Arduino",
+      "HC-SR04 Sensor",
+      "Motor Driver",
+      "Autonomous Rover"
+    ],
+    "description": "An advanced, autonomous vehicular robotics chassis designed to dynamically scan environments and avoid collisions. Features ultrasonic panning servo arrays and high-traction dual gearboxes.",
+    "includedComponents": "Arduino UNO microcontroller, pre-wired L298N motor driver module, SG90 panning micro-servo, HC-SR04 sonar proximity sensor, dual-level acrylic robot chassis, gearbox DC motors, battery holders, firmware code, and schematic drawings.",
+    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "kit-3",
+    "title": "Smart Indoor Greenhouse Kit",
+    "price": "4,999",
+    "originalPrice": "6,499",
+    "category": "Smart Agriculture",
+    "stock": 2,
+    "tags": [
+      "ESP32",
+      "Soil Moisture",
+      "Telemetry",
+      "Water Pump"
+    ],
+    "description": "High-accuracy automated agricultural sensor hub. Monitors temperature, humidity, and capacitive soil dryness. Dynamically logs readings to an active web dashboard and triggers micro-submersible pumps automatically.",
+    "includedComponents": "ESP32 NodeMCU board, DHT22 high-precision air sensor, waterproof capacitive soil moisture sensor, 5V mini water pump with silicone tubing, single-channel isolated relay shield, status LCD module, source code, and full wiring assembly schematics.",
+    "image": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500&auto=format&fit=crop&q=80"
+  }
+]

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>MK Tech Store | Pre-built Arduino & ESP32 Hardware Kits</title>
+    <meta name="description" content="Buy premium, pre-built Arduino, ESP32, and IoT electronics project kits. Fully soldered, tested, and shipped with complete schematics, gerber files, and firmware source code.">
+    <meta name="keywords" content="Arduino Kits, Buy Electronics Projects, Pre-built IoT Kits, ESP32 Automation Boards, Robotics Kits Shop">
+    <meta name="author" content="MK Tech">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Custom Store styling tweaks -->
+    <style>
+        .store-hero {
+            padding-top: 160px;
+            padding-bottom: 60px;
+            background: radial-gradient(circle at 50% 20%, rgba(41, 121, 255, 0.05) 0%, rgba(6, 9, 19, 0) 70%);
+            text-align: center;
+        }
+        .store-container {
+            padding-bottom: 100px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+        .product-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+        .product-image-container {
+            position: relative;
+            height: 220px;
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--bg-primary);
+        }
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+        .product-card:hover .product-image-container img {
+            transform: scale(1.06);
+        }
+        .product-stock-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: var(--toast-bg);
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+        .product-stock-tag.low-stock {
+            color: #f97316;
+            border-color: rgba(249, 115, 22, 0.3);
+            background-color: rgba(249, 115, 22, 0.08);
+        }
+        .product-stock-tag.out-of-stock {
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+            background-color: rgba(239, 68, 68, 0.08);
+        }
+        .product-stock-tag.in-stock {
+            color: var(--accent-green);
+            border-color: rgba(0, 230, 118, 0.3);
+            background-color: rgba(0, 230, 118, 0.08);
+        }
+        .product-info-panel {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-category-text {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .product-title-text {
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        .product-desc-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-features-box {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+        }
+        .product-features-box strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .product-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            margin-top: auto;
+        }
+        .price-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+        .retail-price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+        }
+        .original-price {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .checkout-modal-body p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .product-specs-list {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .product-specs-list li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html#home" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <span class="logo-text">MK <span class="highlight">Tech</span></span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html#home" class="nav-item">Home</a>
+                <a href="index.html#services" class="nav-item">Services</a>
+                <a href="index.html#projects" class="nav-item">Projects</a>
+                <a href="index.html#pricing" class="nav-item">Pricing</a>
+                <a href="index.html#about" class="nav-item">About Us</a>
+                <a href="store.html" class="nav-item active" style="color: var(--accent-cyan);">Store <span style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; margin-left: 4px; vertical-align: middle;">Shop</span></a>
+                <a href="index.html#contact" class="nav-item">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Customer Portal Button -->
+                <button class="theme-toggle" id="btn-customer-portal" aria-label="Customer login / registration" title="Customer Portal" style="font-size: 0.95rem; border-radius: 50px; padding: 0 16px; width: auto; display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 600; cursor: pointer; transition: var(--transition-smooth); background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary);">
+                    <i class="fa-solid fa-circle-user" style="color: var(--accent-cyan);"></i> <span id="customer-nav-btn-text">Customer Login</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                
+                <!-- Mobile Navigation Menu Toggle -->
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Store Hero -->
+        <section class="store-hero">
+            <div class="grid-overlay"></div>
+            <div class="container">
+                <div class="badge">
+                    <span class="badge-dot"></span>
+                    <span class="badge-text">Tested & Pre-assembled Kits</span>
+                </div>
+                <h1 class="hero-title">MK Tech <span class="gradient-text">Hardware Store</span></h1>
+                <p class="section-subtitle">Premium ready-to-run microcontroller boards and IoT automation kits designed for creators.</p>
+            </div>
+        </section>
+
+        <!-- Product Listings -->
+        <section class="store-container">
+            <div class="container">
+                <div class="projects-header-wrapper">
+                    <div class="section-header">
+                        <h2 class="section-title">Available <span class="gradient-text">Hardware Kits</span></h2>
+                        <p class="section-subtitle">Each pre-built package ships fully assembled and includes dynamic firmware guides and wiring diagrams.</p>
+                    </div>
+                    
+                    <!-- Search & Filter Controls -->
+                    <div class="gallery-controls">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="store-search" placeholder="Search products by title, chip..." aria-label="Search Store">
+                        </div>
+                        <div class="filter-pills" id="store-filter-pills">
+                            <button class="pill active" data-category="all">All Kits</button>
+                            <button class="pill" data-category="IoT">IoT Automation</button>
+                            <button class="pill" data-category="Robotics">Robotics</button>
+                            <button class="pill" data-category="Smart">Agriculture</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Catalog Grid -->
+                <div class="products-grid" id="products-grid">
+                    <div class="loader-placeholder">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Fetching Store Inventory...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html#home" class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="logo-text">MK <span class="highlight">Tech</span></span>
+                </a>
+                <p class="brand-desc">Innovative Arduino Projects, custom ESP32 electronics controllers, and premium IoT solutions designed to turn your technical engineering ideas into working prototypes.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon whatsapp dynamic-whatsapp-link" title="WhatsApp Support" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" target="_blank" class="social-icon instagram dynamic-instagram-link" title="Instagram Profile" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon youtube dynamic-youtube-link" title="YouTube Channel" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-icon email dynamic-email-link" title="Email Us" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Our Sections</h3>
+                <ul>
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#services">Engineering Services</a></li>
+                    <li><a href="index.html#projects">Project Gallery</a></li>
+                    <li><a href="store.html">Pre-built Store</a></li>
+                    <li><a href="index.html#about">About Our Lab</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-services-list">
+                <h3>Pre-built Hardware</h3>
+                <ul>
+                    <li><a href="store.html">ESP32 Relays Board</a></li>
+                    <li><a href="store.html">Autonomous Rovers</a></li>
+                    <li><a href="store.html">Agriculture Sensor Hub</a></li>
+                    <li><a href="store.html">PCB Layout Schematics</a></li>
+                    <li><a href="store.html">Custom Firmware Guides</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Connect With Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span class="dynamic-address-text">Tech Park Sector-62, Noida, India</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span class="dynamic-email-text">support@mktechprojects.com</span></p>
+                <p><i class="fa-brands fa-whatsapp"></i> <span class="dynamic-whatsapp-text">+91 98765 43210</span></p>
+                <p class="work-hours"><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 MK Tech. All Rights Reserved. Engineered with Passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Product Details & Order -->
+    <div id="product-detail-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Hardware Kit <span class="gradient-text">Details</span></h3>
+                <button class="modal-close" id="product-modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="inquiry-subtitle">You are purchasing: <strong id="modal-product-title" class="highlight">Blynk Home Automation Kit</strong></p>
+                
+                <div class="product-features-box" style="margin-top: 16px;">
+                    <strong>In the Box (Included Materials):</strong>
+                    <p id="modal-product-included" style="color: var(--text-secondary); margin-bottom: 0; line-height: 1.5;">ESP32 NodeMCU, 4-Channel Relays board, schematics, source code</p>
+                </div>
+
+                <form id="store-checkout-form" class="interactive-form">
+                    <input type="hidden" id="checkout-product-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="checkout-name">Your Full Name <span class="required">*</span></label>
+                            <input type="text" id="checkout-name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="checkout-phone" placeholder="+91 98765-43210" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="checkout-email">Email Address <span class="required">*</span></label>
+                        <input type="email" id="checkout-email" placeholder="john@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="checkout-address">Delivery & Shipping Address <span class="required">*</span></label>
+                        <textarea id="checkout-address" rows="3" placeholder="Enter your full shipping address with Pincode..." required></textarea>
+                    </div>
+                    
+                    <div class="inquiry-options-container">
+                        <p class="inquiry-opt-lbl">Choose Checkout Channel:</p>
+                        <div class="inquiry-channels">
+                            <button type="button" class="btn btn-success channel-btn active" id="store-channel-whatsapp">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp Order
+                            </button>
+                            <button type="button" class="btn btn-primary channel-btn" id="store-channel-email">
+                                <i class="fa-regular fa-envelope"></i> Email Invoice
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" id="checkout-submit-btn">
+                        <span>Place Order (₹<span id="modal-checkout-price">0</span>)</span> <i class="fa-solid fa-basket-shopping"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Customer Auth & Profile Manager -->
+    <div id="customer-auth-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="cust-modal-title">Customer <span class="gradient-text">Portal</span></h3>
+                <button class="modal-close" id="customer-modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 10px;">
+                
+                <!-- STATE 1: Enter Phone Lookup -->
+                <div id="cust-state-lookup" class="customer-state-view">
+                    <p class="inquiry-subtitle" style="margin-bottom: 20px;">Enter your phone number to access your saved profile or register a new one for instant shipping autofills.</p>
+                    <form id="cust-lookup-form" class="interactive-form">
+                        <div class="form-group">
+                            <label for="cust-lookup-phone">Your Phone Number <span class="required">*</span></label>
+                            <div style="position: relative; display: flex; align-items: center;">
+                                <i class="fa-solid fa-phone" style="position: absolute; left: 16px; color: var(--text-secondary); font-size: 0.95rem;"></i>
+                                <input type="tel" id="cust-lookup-phone" placeholder="+91 98765-43210" style="padding-left: 44px;" required autocomplete="tel">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 24px;">
+                            <span>Continue</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- STATE 2: New Registration (Slides open) -->
+                <div id="cust-state-register" class="customer-state-view" style="display: none;">
+                    <p class="inquiry-subtitle" style="margin-bottom: 20px; color: var(--accent-cyan);"><i class="fa-solid fa-user-plus"></i> Complete registration details below to save your profile:</p>
+                    <form id="cust-register-form" class="interactive-form">
+                        <div class="form-group">
+                            <label for="cust-reg-phone">Verified Phone Number</label>
+                            <input type="text" id="cust-reg-phone" disabled style="opacity: 0.6; cursor: not-allowed; background: var(--bg-primary);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-reg-name">Your Full Name <span class="required">*</span></label>
+                            <input type="text" id="cust-reg-name" placeholder="John Doe" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-reg-address">Full Delivery Address <span class="required">*</span></label>
+                            <textarea id="cust-reg-address" rows="3" placeholder="Enter your detailed shipping address with Pincode..." required></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; margin-top: 24px;">
+                            <button type="button" class="btn btn-outline" id="cust-reg-back-btn" style="flex: 1;">
+                                Back
+                            </button>
+                            <button type="submit" class="btn btn-primary" style="flex: 2;">
+                                <span>Register Profile</span> <i class="fa-solid fa-circle-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STATE 3: Active Profile View / Edit Address -->
+                <div id="cust-state-profile" class="customer-state-view" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 24px; background: rgba(0, 230, 118, 0.05); border: 1px dashed rgba(0, 230, 118, 0.2); border-radius: var(--border-radius-sm); padding: 16px;">
+                        <i class="fa-solid fa-circle-user" style="font-size: 3rem; color: var(--accent-green); margin-bottom: 8px; display: block;"></i>
+                        <h4 id="cust-profile-welcome" style="margin: 0; font-family: var(--font-heading); color: var(--text-primary); font-size: 1.2rem;">Welcome Back!</h4>
+                        <span style="font-size: 0.8rem; color: var(--text-secondary);">Verified Customer Profile</span>
+                    </div>
+
+                    <form id="cust-profile-form" class="interactive-form">
+                        <div class="form-group">
+                            <label for="cust-prof-phone">Phone Number (Linked)</label>
+                            <input type="text" id="cust-prof-phone" disabled style="opacity: 0.6; cursor: not-allowed; background: var(--bg-primary);">
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-prof-name">Edit Your Full Name <span class="required">*</span></label>
+                            <input type="text" id="cust-prof-name" placeholder="John Doe" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cust-prof-address">Edit Delivery Address <span class="required">*</span></label>
+                            <textarea id="cust-prof-address" rows="3" placeholder="Enter your detailed shipping address with Pincode..." required></textarea>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <span>Save Changes</span> <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline btn-block" id="cust-profile-logout-btn" style="border-color: #ef4444; color: #ef4444; background: transparent;">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout Session
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Store Client Scripts -->
+    <script src="store-client.js"></script>
+</body>
+</html>

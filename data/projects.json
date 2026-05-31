@@ -1,0 +1,98 @@
+[
+  {
+    "id": "proj-1",
+    "title": "Blind Walking Stick",
+    "category": "Arduino",
+    "tags": [
+      "Ultrasonic Sensor",
+      "Buzzer",
+      "Arduino Nano"
+    ],
+    "description": "An intelligent guidance cane designed for the visually impaired. It utilizes ultrasonic sensors to detect obstacles within a 2-meter range, triggering distinct audible buzzers and vibration-motor alerts for navigation safety.",
+    "image": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-2",
+    "title": "GPS Tracker",
+    "category": "ESP32",
+    "tags": [
+      "Neo-6M GPS",
+      "SIM800L",
+      "IoT"
+    ],
+    "description": "Real-time geographical tracking device that logs location coordinates. It integrates a high-sensitivity GPS module to track physical assets, pushing coordinates to an active server dashboard and sending location links via SMS.",
+    "image": "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-3",
+    "title": "Smart Greenhouse",
+    "category": "IoT",
+    "tags": [
+      "DHT22 Sensor",
+      "Soil Moisture",
+      "Wi-Fi"
+    ],
+    "description": "Autonomous crop-monitoring micro-climate system. It measures air temperature, moisture, and soil dryness. Triggers water solenoid valves automatically and sends environmental analytics to a remote cloud app.",
+    "image": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-4",
+    "title": "Home Automation System",
+    "category": "ESP32",
+    "tags": [
+      "Relay Board",
+      "Wi-Fi",
+      "Web Server"
+    ],
+    "description": "Secure wireless controller enabling users to toggle home lights and appliances. Serves a responsive HTML/CSS control page directly from the ESP32 chip, allowing device switching over local networks.",
+    "image": "https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-5",
+    "title": "WiFi Surveillance Robot",
+    "category": "Custom",
+    "tags": [
+      "L298N Driver",
+      "DC Motors",
+      "ESP32-CAM"
+    ],
+    "description": "An autonomous or manually operated dual-motor robotics vehicle. Incorporates an onboard ESP32 camera module to broadcast live video feeds, controlled wirelessly via a custom joystick browser interface.",
+    "image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-6",
+    "title": "RFID Attendance System",
+    "category": "Arduino",
+    "tags": [
+      "RC522 RFID",
+      "LCD Display",
+      "RTC Module"
+    ],
+    "description": "Digital security logging system for labs and classrooms. Reads high-frequency RFID cards, displays greetings and timestamps on an character LCD module, and logs attendance logs securely.",
+    "image": "https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-7",
+    "title": "Weather Monitoring Station",
+    "category": "IoT",
+    "tags": [
+      "BMP280 Sensor",
+      "ESP8266",
+      "ThingSpeak"
+    ],
+    "description": "Compact atmospheric telemetric center. Captures exact temperature, humidity, and barometric air pressure. Uploads detailed analytical trends to the ThingSpeak Cloud dashboard for remote weather tracking.",
+    "image": "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "proj-8",
+    "title": "Smart Irrigation System",
+    "category": "Arduino",
+    "tags": [
+      "Soil Hydrometer",
+      "Submersible Pump",
+      "Solar"
+    ],
+    "description": "Eco-conscious automated agriculture setup. Evaluates real-time moisture conditions in soil and operates a low-voltage water pump selectively. Engineered with low standby power for solar-panel setups.",
+    "image": "https://images.unsplash.com/photo-1463123081488-729f60801520?w=500&auto=format&fit=crop&q=80"
+  }
+]
