@@ -58,20 +58,19 @@ const allowedOrigins = [
     'http://127.0.0.1:3000',
     'http://[::1]:3000',
     'https://themktech.qzz.io',
-    'https://www.themktech.qzz.io',
-    'https://mk-tech-website.netlify.app',
-    'https://www.mk-tech-website.netlify.app'
+    'https://www.themktech.qzz.io'
 ];
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no Origin (same-origin browser requests, curl, etc.)
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            console.warn(`\x1b[33mCORS Warn:\x1b[0m Access denied for origin: \x1b[31m${origin}\x1b[0m`);
-            const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
-            return callback(new Error(msg), false);
+        // Allow all Netlify subdomains and any origin
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.netlify.app') || process.env.NODE_ENV === 'production') {
+            return callback(null, true);
         }
-        return callback(null, true);
+        console.warn(`\x1b[33mCORS Warn:\x1b[0m Access denied for origin: \x1b[31m${origin}\x1b[0m`);
+        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+        return callback(new Error(msg), false);
     },
     credentials: true
 }));
