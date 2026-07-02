@@ -13,6 +13,9 @@
     "express": "^4.21.2",
     "mongoose": "^9.7.2"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "author": "MK Tech",
   "license": "ISC"
 }
