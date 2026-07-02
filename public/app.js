@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let inquiries = [];
     let passcodeCustomized = false;
 
+    // API Base URL for cross-origin deployment (Netlify frontend + Render backend)
+    const API_BASE = 'https://mk-tech-website.onrender.com';
+
     // Escape HTML to prevent XSS
     function escapeHtml(str) {
         if (!str) return '';
@@ -31,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modern fetch wrapper with automatic Auth and error handling
     async function apiFetch(url, options = {}) {
+        const fullUrl = url.startsWith('http') ? url : API_BASE + url;
         const headers = {
             'Content-Type': 'application/json',
             ...getAuthHeader(),
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch(url, finalOptions);
+            const response = await fetch(fullUrl, finalOptions);
             
             if (response.status === 401 || response.status === 403) {
                 // Administrative session expired or token is invalid
@@ -69,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initDatabase() {
         try {
-            const response = await fetch('/api/projects');
+            const response = await fetch(API_BASE + '/api/projects');
             projects = await response.json();
             renderGallery();
             renderHomepageProjects();
@@ -81,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initStoreProducts() {
         try {
-            const response = await fetch('/api/store');
+            const response = await fetch(API_BASE + '/api/store');
             storeProducts = await response.json();
         } catch (err) {
             console.error('Failed to load store products:', err);
@@ -90,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initProfile() {
         try {
-            const response = await fetch('/api/profile');
+            const response = await fetch(API_BASE + '/api/profile');
             profile = await response.json();
             applyProfileSettings();
         } catch (err) {
@@ -179,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function initSecurity() {
         try {
-            const response = await fetch('/api/auth/status');
+            const response = await fetch(API_BASE + '/api/auth/status');
             const data = await response.json();
             passcodeCustomized = data.passcodeCustomized;
             updateAuthHint();
@@ -740,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     message: details || 'No additional customization requirements specified.'
                 };
                 
-                fetch('/api/inquiries', {
+                fetch(API_BASE + '/api/inquiries', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -831,7 +835,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const codeInput = passcodeEl ? passcodeEl.value : '';
             
             try {
-                const response = await fetch('/api/auth/login', {
+                const response = await fetch(API_BASE + '/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ passcode: codeInput })
@@ -1721,7 +1725,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 message
             };
 
-            fetch('/api/inquiries', {
+            fetch(API_BASE + '/api/inquiries', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

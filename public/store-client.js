@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let products = [];
     let profile = {};
     let activeCustomer = null;
+
+    // API Base URL for cross-origin deployment (Netlify frontend + Render backend)
+    const API_BASE = 'https://mk-tech-website.onrender.com';
+
     const productsGrid = document.getElementById('products-grid');
     const searchInput = document.getElementById('store-search');
     const filterPillsContainer = document.getElementById('store-filter-pills');
@@ -113,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
        -------------------------------------------------------------------------- */
     async function initProfile() {
         try {
-            const response = await fetch('/api/profile');
+            const response = await fetch(API_BASE + '/api/profile');
             profile = await response.json();
             applyProfileSettings();
         } catch (err) {
@@ -163,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
        -------------------------------------------------------------------------- */
     async function initStore() {
         try {
-            const response = await fetch('/api/store');
+            const response = await fetch(API_BASE + '/api/store');
             products = await response.json();
             renderStoreGrid();
         } catch (err) {
@@ -507,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!phone) return;
 
             try {
-                const response = await fetch('/api/customer/auth', {
+                const response = await fetch(API_BASE + '/api/customer/auth', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone })
@@ -559,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('/api/customer/register', {
+                const response = await fetch(API_BASE + '/api/customer/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, phone, address })
@@ -596,7 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch('/api/customer/profile', {
+                const response = await fetch(API_BASE + '/api/customer/profile', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, phone, address })

@@ -56,7 +56,11 @@ const allowedOrigins = [
     'http://[::1]:5001',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
-    'http://[::1]:3000'
+    'http://[::1]:3000',
+    'https://themktech.qzz.io',
+    'https://www.themktech.qzz.io',
+    'https://mk-tech-website.netlify.app',
+    'https://www.mk-tech-website.netlify.app'
 ];
 app.use(cors({
     origin: function (origin, callback) {
