@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>MK Tech Admin | Lab Dashboard</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-auth-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+        .admin-auth-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .admin-auth-card .logo-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.6rem;
+            color: #000;
+        }
+        .admin-auth-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .admin-auth-card > p {
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 0.95rem;
+        }
+        .admin-auth-card .interactive-form {
+            text-align: left;
+        }
+        .admin-auth-card .btn-block {
+            margin-top: 8px;
+        }
+        .admin-dashboard-section {
+            display: block;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            padding: 20px;
+        }
+        .admin-dashboard-section.hidden {
+            display: none;
+        }
+        .admin-dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+        .admin-dashboard-header h3 {
+            margin: 0;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+        }
+        .admin-dashboard-body {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .admin-layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 1024px) {
+            .admin-layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .admin-auth-section.hidden {
+            display: none;
+        }
+        .admin-dashboard-section.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="dark-theme">
+
+    <!-- Full Page: Admin Authentication -->
+    <div id="admin-auth-section" class="admin-auth-section">
+        <div class="admin-auth-card">
+            <div class="logo-icon">
+                <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h3>Admin <span class="gradient-text">Authentication</span></h3>
+            <p>Enter password to access the project management dashboard.</p>
+            <form id="admin-auth-form" class="interactive-form">
+                <div class="form-group">
+                    <label for="admin-passcode">Lab Passcode</label>
+                    <input type="password" id="admin-passcode" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required autocomplete="current-password">
+                    <span class="auth-hint" id="auth-hint-text">Enter your admin passcode to access the dashboard.</span>
+                    <div class="error-msg" id="auth-error-msg">Invalid passcode. Please try again.</div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <span>Access Lab Dashboard</span> <i class="fa-solid fa-lock-open"></i>
+                </button>
+            </form>
+            <a href="index.html" style="display: inline-block; margin-top: 20px; color: var(--text-secondary); font-size: 0.85rem; text-decoration: none;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Full Page: Admin Dashboard -->
+    <div id="admin-dashboard-section" class="admin-dashboard-section">
+        <div class="admin-dashboard-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-user-gear" style="font-size: 1.4rem; color: var(--accent-cyan);"></i>
+                <h3>MK Tech <span class="gradient-text">Admin Dashboard</span></h3>
+            </div>
+            <button class="btn btn-outline" id="admin-logout-btn" style="padding: 6px 16px; font-size: 0.85rem; border-color: #ef4444; color: #ef4444; background: transparent; height: 36px;" title="Sign out from admin session">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </div>
+        <div class="admin-dashboard-body">
+            <div class="admin-layout-grid">
+                <!-- Column 1: Add / Edit Form & Profile -->
+                <div class="admin-form-panel">
+                    <div class="admin-tab-nav" style="display: flex; gap: 8px; margin-bottom: 24px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px; overflow-x: auto; white-space: nowrap;">
+                        <button type="button" class="admin-tab-btn active" data-tab="projects" style="background: transparent; border: none; color: var(--text-primary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid var(--accent-cyan); outline: none;">Project Manager</button>
+                        <button type="button" class="admin-tab-btn" data-tab="store" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Store Manager</button>
+                        <button type="button" class="admin-tab-btn" data-tab="contacts" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Contact Details</button>
+                        <button type="button" class="admin-tab-btn" data-tab="inbox" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">
+                            Inquiries Inbox <span class="badge-count" id="inbox-badge" style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.75rem; margin-left: 4px; font-weight: 800;">0</span>
+                        </button>
+                        <button type="button" class="admin-tab-btn" data-tab="security" style="background: transparent; border: none; color: var(--text-secondary); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 4px 12px; border-bottom: 2px solid transparent; outline: none;">Security</button>
+                    </div>
+                    
+                    <!-- Tab Content 1: Project Form -->
+                    <div class="admin-tab-content active" id="tab-projects">
+                        <h4 class="admin-panel-title" id="admin-form-mode-title" style="border: none; margin-bottom: 16px; padding: 0;">Create New Project</h4>
+                        <form id="admin-project-form" class="interactive-form">
+                        <!-- Hidden project ID for editing -->
+                        <input type="hidden" id="admin-project-id">
+                        
+                        <div class="form-group">
+                            <label for="admin-proj-title">Project Title <span class="required">*</span></label>
+                            <input type="text" id="admin-proj-title" placeholder="e.g. Smart Trash Can" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="admin-proj-category">Controller / Platform <span class="required">*</span></label>
+                                <select id="admin-proj-category" required>
+                                    <option value="" disabled selected>Select Platform...</option>
+                                    <option value="Arduino">Arduino</option>
+                                    <option value="ESP32">ESP32</option>
+                                    <option value="IoT">IoT</option>
+                                    <option value="Custom">Custom Electronics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-proj-tags">Key Tags <span class="required">*</span></label>
+                                <input type="text" id="admin-proj-tags" placeholder="e.g. Wi-Fi, IR Sensor, Servo" required>
+                                <span class="field-hint">Comma separated values</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="admin-proj-desc">Detailed Project Description <span class="required">*</span></label>
+                            <textarea id="admin-proj-desc" rows="4" placeholder="Explain what the project accomplishes, parts utilized, and key functionality..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Project Visual Image <span class="required">*</span></label>
+                            <div class="image-upload-wrapper">
+                                <!-- Hidden File Input -->
+                                <input type="file" id="admin-proj-image-file" accept="image/*" class="file-input-hidden">
+                                
+                                <div class="image-upload-dropzone" id="image-upload-dropzone">
+                                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                    <p class="dropzone-text">Click to choose image or drag & drop</p>
+                                    <span class="dropzone-hint">Supports PNG, JPG, JPEG (Max 1MB)</span>
+                                </div>
+                                
+                                <!-- Image Preview Panel -->
+                                <div class="image-upload-preview" id="image-upload-preview-container">
+                                    <img id="image-preview" src="" alt="Project Preview">
+                                    <button type="button" class="remove-preview-btn" id="remove-preview-btn" title="Remove image">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Text Fallback URL -->
+                                <div class="fallback-url-container">
+                                    <label for="admin-proj-image-url">Or paste image URL:</label>
+                                    <input type="url" id="admin-proj-image-url" placeholder="https://images.unsplash.com/photo-...">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="admin-proj-show-homepage" checked>
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-text">Show on Homepage</span>
+                            </label>
+                        </div>
+
+                        <div class="admin-form-actions">
+                            <button type="submit" class="btn btn-primary" id="admin-save-btn">
+                                <span>Add Project Card</span> <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline" id="admin-cancel-edit-btn" style="display: none;">
+                                Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                    
+                    <!-- Tab Content: Store Form -->
+                    <div class="admin-tab-content" id="tab-store" style="display: none;">
+                        <h4 class="admin-panel-title" id="admin-store-form-mode-title" style="border: none; margin-bottom: 16px; padding: 0;">Create New Hardware Kit</h4>
+                        <form id="admin-store-form" class="interactive-form">
+                        <!-- Hidden product ID for editing -->
+                        <input type="hidden" id="admin-store-product-id">
+                        
+                        <div class="form-group">
+                            <label for="admin-store-title">Kit / Product Title <span class="required">*</span></label>
+                            <input type="text" id="admin-store-title" placeholder="e.g. Blynk Home Automation Kit" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="admin-store-category">Category <span class="required">*</span></label>
+                                <select id="admin-store-category" required>
+                                    <option value="" disabled selected>Select Category...</option>
+                                    <option value="IoT Automation">IoT Automation</option>
+                                    <option value="Robotics">Robotics</option>
+                                    <option value="Smart Agriculture">Smart Agriculture</option>
+                                    <option value="Custom Electronics">Custom Electronics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-store-tags">Key Tags <span class="required">*</span></label>
+                                <input type="text" id="admin-store-tags" placeholder="e.g. ESP32, Blynk, 4-Channel Relay" required>
+                                <span class="field-hint">Comma separated values</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="admin-store-price">Retail Price (₹) <span class="required">*</span></label>
+                                <input type="number" id="admin-store-price" min="0" placeholder="e.g. 1499" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-store-orig-price">Original Price (₹) <span class="field-hint">(Optional strikeout)</span></label>
+                                <input type="number" id="admin-store-orig-price" min="0" placeholder="e.g. 1999">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-store-stock">Stock Qty <span class="required">*</span></label>
+                                <input type="number" id="admin-store-stock" min="0" placeholder="e.g. 5" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="admin-store-desc">Product Description <span class="required">*</span></label>
+                            <textarea id="admin-store-desc" rows="3" placeholder="Explain the kit functionality, firmware capabilities, target audience..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin-store-included">Included Box Materials <span class="required">*</span></label>
+                            <textarea id="admin-store-included" rows="2" placeholder="e.g. ESP32 NodeMCU Development Board, 4-Channel 5V Relays, Custom schematic sheet, firmware download guide..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Kit Visual Image <span class="required">*</span></label>
+                            <div class="image-upload-wrapper">
+                                <!-- Hidden File Input -->
+                                <input type="file" id="admin-store-image-file" accept="image/*" class="file-input-hidden">
+                                
+                                <div class="image-upload-dropzone" id="store-image-upload-dropzone">
+                                    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                                    <p class="dropzone-text">Click to choose image or drag & drop</p>
+                                    <span class="dropzone-hint">Supports PNG, JPG, JPEG (Max 1MB)</span>
+                                </div>
+                                
+                                <!-- Image Preview Panel -->
+                                <div class="image-upload-preview" id="store-image-upload-preview-container">
+                                    <img id="store-image-preview" src="" alt="Product Preview">
+                                    <button type="button" class="remove-preview-btn" id="store-remove-preview-btn" title="Remove image">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Text Fallback URL -->
+                                <div class="fallback-url-container">
+                                    <label for="admin-store-image-url">Or paste image URL:</label>
+                                    <input type="url" id="admin-store-image-url" placeholder="https://images.unsplash.com/photo-...">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-form-actions">
+                            <button type="submit" class="btn btn-primary" id="admin-store-save-btn-element">
+                                <span>Add Store Product</span> <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline" id="admin-store-cancel-edit-btn" style="display: none;">
+                                Cancel Edit
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                    
+                    <!-- Tab Content 2: Contact/Profile settings -->
+                    <div class="admin-tab-content" id="tab-contacts" style="display: none;">
+                        <h4 class="admin-panel-title" style="border: none; margin-bottom: 16px; padding: 0;">Update Contact Profile</h4>
+                        <form id="admin-profile-form" class="interactive-form">
+                            <div class="form-group">
+                                <label for="admin-prof-whatsapp">WhatsApp Number <span class="required">*</span></label>
+                                <input type="text" id="admin-prof-whatsapp" placeholder="+91 98765-43210" required>
+                                <span class="field-hint">Format: +91 98765-43210</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-prof-instagram">Instagram Handle <span class="required">*</span></label>
+                                <input type="text" id="admin-prof-instagram" placeholder="mktech_projects" required>
+                                <span class="field-hint">Username profile key without '@'</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-prof-email">Contact Email Address <span class="required">*</span></label>
+                                <input type="email" id="admin-prof-email" placeholder="support@mktechprojects.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-prof-youtube">YouTube Username / ID</label>
+                                <input type="text" id="admin-prof-youtube" placeholder="mktech_projects">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-prof-address">Lab Address <span class="required">*</span></label>
+                                <textarea id="admin-prof-address" rows="3" placeholder="Tech Park Sector-62, Block C, Noida, India" required></textarea>
+                            </div>
+                            
+                            <h4 class="admin-panel-title" style="border: none; margin-top: 24px; margin-bottom: 12px; padding: 0;">Package Pricing Settings (INR)</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="admin-price-basic">Basic Package (₹) <span class="required">*</span></label>
+                                    <input type="text" id="admin-price-basic" placeholder="2,999" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="admin-price-intermediate">Intermediate (₹) <span class="required">*</span></label>
+                                    <input type="text" id="admin-price-intermediate" placeholder="6,999" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-price-advanced">Advanced Package (₹) <span class="required">*</span></label>
+                                <input type="text" id="admin-price-advanced" placeholder="14,999" required>
+                            </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label for="admin-price-web">Web Development (₹) <span class="required">*</span></label>
+                                <input type="text" id="admin-price-web" placeholder="4,999" required>
+                            </div>
+                            
+                            <h4 class="admin-panel-title" style="border: none; margin-top: 24px; margin-bottom: 12px; padding: 0;">Pricing Features Settings (One per line)</h4>
+                            <div class="form-group">
+                                <label for="admin-features-basic">Basic Package Features</label>
+                                <textarea id="admin-features-basic" rows="3" placeholder="Standard Arduino UNO/Nano Core&#10;Interfacing up to 2 basic sensors&#10;Fully commented source code&#10;Circuit connection diagram&#10;1-Week post-delivery troubleshooting"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-features-intermediate">Intermediate Features</label>
+                                <textarea id="admin-features-intermediate" rows="3" placeholder="ESP32 / Arduino Mega Hardware&#10;Up to 4 active sensors and actuators&#10;Custom algorithm optimization&#10;Step-by-step assembly guide&#10;High-quality circuit design&#10;2-Weeks active technical support"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-features-advanced">Advanced Features</label>
+                                <textarea id="admin-features-advanced" rows="3" placeholder="Cloud telemetry (Blynk, Adafruit, AWS)&#10;Custom high-density PCB schematic&#10;Multi-sensor data logging & dashboards&#10;Professional project report structure&#10;Live video demonstration & guide&#10;30 days premium support"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-features-custom">Custom Features</label>
+                                <textarea id="admin-features-custom" rows="3" placeholder="Fully customized component sourcing&#10;Multi-layer high precision PCB layouts&#10;Full tech stack web-control integration&#10;Comprehensive patent/report documentation&#10;Continuous dedicated support"></textarea>
+                            </div>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label for="admin-features-web">Web Development Features</label>
+                                <textarea id="admin-features-web" rows="3" placeholder="Responsive frontend (HTML/CSS/JS)&#10;Backend API & database integration&#10;Custom admin dashboard panel&#10;SEO optimization & performance&#10;1-month post-launch support"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" id="admin-profile-save-btn">
+                                <span>Save Settings & Pricing</span> <i class="fa-solid fa-save"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Tab Content 3: Inquiries Inbox -->
+                    <div class="admin-tab-content" id="tab-inbox" style="display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 12px;">
+                            <h4 class="admin-panel-title" style="border: none; margin: 0; padding: 0;">Customer Inquiries Inbox</h4>
+                            <button type="button" class="btn btn-outline" id="admin-clear-inbox-btn" style="padding: 6px 12px; font-size: 0.8rem; border-color: #ef4444; color: #ef4444; background: transparent;">
+                                <i class="fa-solid fa-trash-sweep"></i> Clear All
+                            </button>
+                        </div>
+                        <div class="admin-inbox-list" id="admin-inbox-list" style="display: flex; flex-direction: column; gap: 16px; max-height: 52vh; overflow-y: auto; padding-right: 8px;">
+                            <!-- Populated dynamically via app.js -->
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Content 4: Security / Change Password -->
+                    <div class="admin-tab-content" id="tab-security" style="display: none;">
+                        <h4 class="admin-panel-title" style="border: none; margin-bottom: 16px; padding: 0;">Update Admin Passcode</h4>
+                        <form id="admin-security-form" class="interactive-form">
+                            <div class="form-group">
+                                <label for="admin-current-passcode">Current Passcode <span class="required">*</span></label>
+                                <input type="password" id="admin-current-passcode" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required autocomplete="current-password">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-new-passcode">New Passcode <span class="required">*</span></label>
+                                <input type="password" id="admin-new-passcode" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required autocomplete="new-password">
+                            </div>
+                            <div class="form-group">
+                                <label for="admin-confirm-passcode">Confirm New Passcode <span class="required">*</span></label>
+                                <input type="password" id="admin-confirm-passcode" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required autocomplete="new-password">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="admin-security-save-btn">
+                                <span>Update Passcode</span> <i class="fa-solid fa-key"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Column 2: Current Projects / Store Inventory List -->
+                <div class="admin-list-panel">
+                    <!-- Projects List Heading -->
+                    <div id="admin-projects-title-container">
+                        <h4 class="admin-panel-title">Current Projects Inventory (<span id="admin-project-count">0</span>)</h4>
+                    </div>
+                    <!-- Store List Heading -->
+                    <div id="admin-store-title-container" style="display: none;">
+                        <h4 class="admin-panel-title">Store Kits Inventory (<span id="admin-store-count">0</span>)</h4>
+                    </div>
+                    
+                    <!-- Projects List Container -->
+                    <div class="admin-projects-list" id="admin-projects-list">
+                        <!-- Populated dynamically via app.js -->
+                    </div>
+                    <!-- Store List Container -->
+                    <div class="admin-projects-list" id="admin-store-list" style="display: none;">
+                        <!-- Populated dynamically via app.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>

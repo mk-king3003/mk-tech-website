@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>Contact MK Tech | Get A Project Quote</title>
+    <meta name="description" content="Reach out to MK Tech for Arduino, ESP32, PCB Design, and IoT solutions. Submit your requirements through our contact form. Rapid reply in 24 hours.">
+    <meta name="keywords" content="Contact MK Tech, Arduino quote, ESP32 consultation, IoT project request, PCB layout inquiry">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <span class="logo-text">MK <span class="highlight">Tech</span></span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="services.html" class="nav-item">Services</a>
+                <a href="projects.html" class="nav-item">Projects</a>
+                <a href="store.html" class="nav-item">Store <span style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; margin-left: 4px; vertical-align: middle;">Shop</span></a>
+                <a href="pricing.html" class="nav-item">Pricing</a>
+                <a href="about.html" class="nav-item">About Us</a>
+                <a href="contact.html" class="nav-item active">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="/admin" target="_blank" rel="noopener noreferrer" title="Admin Login" style="font-size:1.1rem; padding:0 8px; color:var(--text-secondary);"><i class="fa-solid fa-lock"></i></a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main" style="padding-top: 100px;">
+        <!-- Contact Section -->
+        <section class="contact-section" id="contact" style="padding-top: 40px; min-height: 75vh; position: relative;">
+            <div class="hero-glow-1" style="top: 10%; left: 5%;"></div>
+            <div class="hero-glow-2" style="bottom: 10%; right: 5%;"></div>
+            <div class="grid-overlay"></div>
+
+            <div class="container">
+                <div class="contact-grid">
+                    <!-- Column 1: Info and Slogan -->
+                    <div class="contact-info-panel">
+                        <div class="badge">
+                            <span class="badge-dot"></span>
+                            <span class="badge-text">Get in Touch</span>
+                        </div>
+                        <h1 class="section-title" style="margin-top: 10px;">Ready to Start Your <span class="gradient-text">Next Project?</span></h1>
+                        <p class="contact-intro">Fill out our rapid inquiry form, and our engineering team will get back to you within 24 hours with a custom quotation and solution framework.</p>
+                        
+                        <div class="contact-details" style="margin-top: 40px;">
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                <div class="detail-text">
+                                    <h4>Our Lab Address</h4>
+                                    <p class="dynamic-address-text">Tech Park Sector-62, Block C, Noida, India</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                                <div class="detail-text">
+                                    <h4>Email Support</h4>
+                                    <p class="dynamic-email-text">support@mktechprojects.com</p>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                                <div class="detail-text">
+                                    <h4>WhatsApp Support</h4>
+                                    <p class="dynamic-whatsapp-text">+91 98765 43210</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2: Interactive Contact Form -->
+                    <div class="contact-form-panel">
+                        <form id="main-contact-form" class="interactive-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contact-name">Full Name <span class="required">*</span></label>
+                                    <input type="text" id="contact-name" name="name" placeholder="John Doe" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact-phone">Phone Number <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                                    <input type="tel" id="contact-phone" name="phone" placeholder="+91 98765-43210">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Email Address <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                                <input type="email" id="contact-email" name="email" placeholder="john@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-requirement-select">Select Project Category <span class="required">*</span></label>
+                                <select id="contact-requirement-select" name="category" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="Arduino">Arduino Custom Project</option>
+                                    <option value="ESP32">ESP32 & Wi-Fi Automation</option>
+                                    <option value="IoT">IoT Cloud Integration</option>
+                                    <option value="Web">Web Development</option>
+                                    <option value="PCB">PCB Design & Layout</option>
+                                    <option value="Troubleshooting">Coding & Debugging Support</option>
+                                    <option value="Other">Other Custom Electronics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-message">Detail Your Project Requirements <span class="required">*</span></label>
+                                <textarea id="contact-message" name="message" rows="5" placeholder="Please describe what your circuit needs to do, which sensors you want to use, and your deadline..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" id="form-submit-btn">
+                                <span>Submit Requirements</span> <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="logo-text">MK <span class="highlight">Tech</span></span>
+                </a>
+                <p class="brand-desc">Innovative Arduino Projects, custom ESP32 electronics controllers, and premium IoT solutions designed to turn your technical engineering ideas into working prototypes.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/919876543210" target="_blank" class="social-icon whatsapp dynamic-whatsapp-link" title="WhatsApp Support" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/mktech_projects" target="_blank" class="social-icon instagram dynamic-instagram-link" title="Instagram Profile" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/c/mktech_projects" target="_blank" class="social-icon youtube dynamic-youtube-link" title="YouTube Channel" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="mailto:support@mktechprojects.com" class="social-icon email dynamic-email-link" title="Email Us" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Our Sections</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Engineering Services</a></li>
+                    <li><a href="projects.html">Project Gallery</a></li>
+                    <li><a href="store.html">Pre-built Store</a></li>
+                    <li><a href="about.html">About Our Lab</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-services-list">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li><a href="services.html">Arduino Firmware</a></li>
+                    <li><a href="services.html">ESP32 & NodeMCU Controls</a></li>
+                    <li><a href="services.html">IoT Telemetry Dashboards</a></li>
+                    <li><a href="services.html">Custom PCB Schematics</a></li>
+                    <li><a href="services.html">Firmware Debugging</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Connect With Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span class="dynamic-address-text">Tech Park Sector-62, Noida, India</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span class="dynamic-email-text">support@mktechprojects.com</span></p>
+                <p><i class="fa-brands fa-whatsapp"></i> <span class="dynamic-whatsapp-text">+91 98765 43210</span></p>
+                <p class="work-hours"><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 MK Tech. All Rights Reserved. Engineered with Passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js?v=2"></script>
+    <script>
+        // Read optional URL query parameters to pre-fill pricing selections
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tier = urlParams.get('tier');
+            if (tier) {
+                const selectElement = document.getElementById('contact-requirement-select');
+                const messageElement = document.getElementById('contact-message');
+                if (selectElement && messageElement) {
+                    if (tier.includes('Basic')) {
+                        selectElement.value = 'Arduino';
+                    } else if (tier.includes('Intermediate')) {
+                        selectElement.value = 'ESP32';
+                    } else if (tier.includes('Advanced')) {
+                        selectElement.value = 'IoT';
+                    } else if (tier.includes('Web')) {
+                        selectElement.value = 'Web';
+                    } else {
+                        selectElement.value = 'Other';
+                    }
+                    messageElement.value = `Hi MK Tech team, I would like to inquire about the ${tier} package. Please contact me with details.`;
+                    
+                    // Trigger custom feedback message after load
+                    setTimeout(() => {
+                        if (typeof showToast === 'function') {
+                            showToast(`Prefilled package form for ${tier}!`, 'info');
+                        }
+                    }, 500);
+                }
+            }
+        });
+    </script>
+
+    <!-- WhatsApp Floating Action Button -->
+    <a href="https://wa.me/919876543210" class="whatsapp-floating dynamic-whatsapp-link" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="WhatsApp Chat">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="whatsapp-badge">Chat with Us</span>
+    </a>
+</body>
+</html>

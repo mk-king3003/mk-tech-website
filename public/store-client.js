@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let products = [];
     let profile = {};
     let activeCustomer = null;
-    let checkoutChannel = 'whatsapp'; // Default channel
-
     const productsGrid = document.getElementById('products-grid');
     const searchInput = document.getElementById('store-search');
     const filterPillsContainer = document.getElementById('store-filter-pills');
@@ -16,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalProductIncludedP = document.getElementById('modal-product-included');
     const modalCheckoutPriceSpan = document.getElementById('modal-checkout-price');
     
-    const channelWhatsappBtn = document.getElementById('store-channel-whatsapp');
-    const channelEmailBtn = document.getElementById('store-channel-email');
     const modalCloseBtn = document.getElementById('product-modal-close');
     const toastContainer = document.getElementById('toast-container');
     const body = document.body;
@@ -104,6 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Close mobile nav when link is clicked
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (hamburgerMenuBtn) hamburgerMenuBtn.classList.remove('active');
+            if (navLinksList) navLinksList.classList.remove('active');
+        });
+    });
+
     /* --------------------------------------------------------------------------
        4. GET SETTINGS & PROFILE FLOW
        -------------------------------------------------------------------------- */
@@ -175,6 +179,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderStoreGrid() {
         productsGrid.innerHTML = '';
+
+        if (!Array.isArray(products)) {
+            productsGrid.innerHTML = `
+                <div class="loader-placeholder" style="grid-column: 1 / -1; width: 100%;">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 2.5rem;"></i>
+                    <p>Failed to load the store inventory. Invalid data format received.</p>
+                </div>
+            `;
+            return;
+        }
 
         const filtered = products.filter(prod => {
             const matchesCategory = (currentCategory === 'all') || 
@@ -296,12 +310,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const prod = products.find(p => p.id === productId);
         if (!prod) return;
 
+        // Reset the form values first before populating details to avoid hidden field reset bugs (B3)
+        checkoutForm.reset();
+
         checkoutProductIdInput.value = prod.id;
         modalProductTitleSpan.textContent = prod.title;
         modalProductIncludedP.textContent = prod.includedComponents;
         modalCheckoutPriceSpan.textContent = prod.price;
 
-        checkoutForm.reset();
+        // Reset quantity select field if it exists
+        const quantitySelect = document.getElementById('checkout-quantity');
+        if (quantitySelect) quantitySelect.value = "1";
         
         // AUTOFILL customer fields if logged in
         if (activeCustomer) {
@@ -314,25 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (checkoutAddressInput) checkoutAddressInput.value = activeCustomer.address;
         }
 
-        setCheckoutChannel('whatsapp');
-
         openModal(productDetailModal);
     }
 
-    function setCheckoutChannel(channel) {
-        checkoutChannel = channel;
-        channelWhatsappBtn.classList.remove('active');
-        channelEmailBtn.classList.remove('active');
-
-        if (channel === 'whatsapp') {
-            channelWhatsappBtn.classList.add('active');
-        } else {
-            channelEmailBtn.classList.add('active');
-        }
-    }
-
-    channelWhatsappBtn.addEventListener('click', () => setCheckoutChannel('whatsapp'));
-    channelEmailBtn.addEventListener('click', () => setCheckoutChannel('email'));
     modalCloseBtn.addEventListener('click', () => closeModal(productDetailModal));
 
     window.addEventListener('click', (e) => {
@@ -349,54 +352,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const phone = document.getElementById('checkout-phone').value.trim();
         const email = document.getElementById('checkout-email').value.trim();
         const address = document.getElementById('checkout-address').value.trim();
+        const quantitySelect = document.getElementById('checkout-quantity');
+        const quantity = quantitySelect ? parseInt(quantitySelect.value, 10) : 1;
         
         const prodId = checkoutProductIdInput.value;
         const prod = products.find(p => p.id === prodId);
         if (!prod) return;
 
+        const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
+
+        const unitPrice = parseFloat(prod.price.replace(/,/g, '')) || 0;
+        const totalPrice = unitPrice * quantity;
+        const formattedPrice = totalPrice.toLocaleString('en-IN');
+
         const cleanWhatsapp = profile.whatsapp.replace(/\D/g, '');
 
-        if (checkoutChannel === 'whatsapp') {
-            // Compile beautiful WhatsApp checkout message
-            const checkoutText = `Hi MK Tech!\n\nI want to place an order for the hardware kit: *${prod.title}*.\n\n*My Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Email: ${email}\n\n*Shipping Address:*\n${address}\n\n*Order Summary:*\n- Item: ${prod.title}\n- Price: *₹${prod.price}*\n- Platform: ${prod.category}`;
-            const encodedText = encodeURIComponent(checkoutText);
-            const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodedText}`;
+        const checkoutText = `Hi MK Tech!\n\nI want to place an order for the hardware kit: *${prod.title}*.\n\n*My Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Email: ${email}\n\n*Shipping Address:*\n${address}\n\n*Order Summary:*\n- Item: ${prod.title}\n- Quantity: *${quantity} unit(s)*\n- Total Price: *₹${formattedPrice}*\n- Payment: *Cash on Delivery*`;
+        const encodedText = encodeURIComponent(checkoutText);
+        const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodedText}`;
 
-            closeModal(productDetailModal);
-            showToast('Redirecting to WhatsApp Order channel...', 'success');
-            window.open(whatsappUrl, '_blank');
-        } else {
-            // Submit as High-Priority Order Inquiry to API
-            const orderMessage = `HIGH-PRIORITY STORE ORDER REQUEST:\n\nCustomer wants to purchase the pre-built kit: "${prod.title}" (Price: ₹${prod.price})\n\nShipping Address:\n${address}`;
-            const payload = {
-                name,
-                phone,
-                email,
-                category: 'Store Order',
-                project: prod.title,
-                message: orderMessage
-            };
-
-            try {
-                const response = await fetch('/api/inquiries', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await response.json();
-
-                if (response.ok && data && data.success) {
-                    closeModal(productDetailModal);
-                    showToast('Order inquiry sent! We will mail your invoice shortly.', 'success');
-                } else {
-                    showToast('Failed to submit order. Try again.', 'error');
-                }
-            } catch (err) {
-                console.error(err);
-                showToast('Failed to submit order due to network issue.', 'error');
-            }
-        }
+        closeModal(productDetailModal);
+        showToast('Redirecting to WhatsApp to complete your COD order...', 'success');
+        if (submitBtn) submitBtn.disabled = false;
+        window.open(whatsappUrl, '_blank');
     });
+
+    // Live price calculation listener when changing quantities (UX5)
+    const quantitySelectField = document.getElementById('checkout-quantity');
+    if (quantitySelectField) {
+        quantitySelectField.addEventListener('change', () => {
+            const prodId = checkoutProductIdInput.value;
+            const prod = products.find(p => p.id === prodId);
+            if (!prod) return;
+            const quantity = parseInt(quantitySelectField.value, 10) || 1;
+            const unitPrice = parseFloat(prod.price.replace(/,/g, '')) || 0;
+            modalCheckoutPriceSpan.textContent = (unitPrice * quantity).toLocaleString('en-IN');
+        });
+    }
 
     /* --------------------------------------------------------------------------
        8. CUSTOMER AUTHENTICATION & PORTAL LOGIC

@@ -13,6 +13,8 @@ yarn-error.log*
 # Database & Runtime Temp Files
 data/*.tmp
 data/*.bak
+data/auth.json
+data/inquiries.json
 .DS_Store
 Thumbs.db
 

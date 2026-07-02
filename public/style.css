@@ -5,8 +5,28 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. DESIGN SYSTEM & ROOT VARIABLES
-   -------------------------------------------------------------------------- */
+    1. DESIGN SYSTEM & ROOT VARIABLES
+    -------------------------------------------------------------------------- */
+
+/* Skip to main content link (accessibility) */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    background: var(--accent-cyan);
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 0 0 8px 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    z-index: 10000;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+.skip-link:focus {
+    top: 0;
+}
+
 :root {
     /* Fonts */
     --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
@@ -1057,6 +1077,14 @@ section {
 .search-box {
     position: relative;
     width: 320px;
+    transition: var(--transition-smooth);
+}
+
+/* Smooth expansion on focus for desktop screens */
+@media (min-width: 769px) {
+    .search-box:focus-within {
+        width: 380px;
+    }
 }
 
 .search-icon {
@@ -1066,12 +1094,22 @@ section {
     transform: translateY(-50%);
     color: var(--text-secondary);
     font-size: 0.95rem;
+    transition: var(--transition-smooth);
+    pointer-events: none;
+    z-index: 5;
 }
 
-#project-search {
+.search-box:focus-within .search-icon {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+.search-box input {
     width: 100%;
     padding: 12px 16px 12px 48px;
-    background-color: var(--bg-secondary);
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1.5px solid var(--border-color);
     border-radius: 100px;
     color: var(--text-primary);
@@ -1081,9 +1119,13 @@ section {
     transition: var(--transition-smooth);
 }
 
-#project-search:focus {
+.search-box input:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+}
+
+.search-box input:focus {
     border-color: var(--accent-cyan);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.25), inset 0 0 10px rgba(0, 229, 255, 0.05);
     background-color: var(--bg-primary);
 }
 
@@ -2117,6 +2159,72 @@ section {
     margin-top: 12px;
 }
 
+/* Toggle Switch for Show on Homepage */
+.toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.toggle-label input[type="checkbox"] {
+    display: none;
+}
+.toggle-slider {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background-color: var(--border-color);
+    border-radius: 12px;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+}
+.toggle-slider::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+.toggle-label input:checked + .toggle-slider {
+    background-color: var(--accent-cyan, #00b8d4);
+}
+.toggle-label input:checked + .toggle-slider::after {
+    transform: translateX(20px);
+}
+.toggle-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Quick toggle in admin list cards */
+.admin-item-toggle {
+    flex-shrink: 0;
+}
+.admin-item-toggle .toggle-label {
+    gap: 6px;
+}
+.admin-item-toggle .toggle-slider {
+    width: 36px;
+    height: 20px;
+}
+.admin-item-toggle .toggle-slider::after {
+    width: 14px;
+    height: 14px;
+    top: 3px;
+    left: 3px;
+}
+.admin-item-toggle .toggle-label input:checked + .toggle-slider::after {
+    transform: translateX(16px);
+}
+.admin-item-toggle .toggle-text {
+    font-size: 0.7rem;
+}
+
 /* Inventory List cards */
 .admin-projects-list {
     display: flex;
@@ -2486,6 +2594,17 @@ section {
     .admin-list-panel {
         max-height: none;
     }
+
+    /* Stacking form grids & inquiry buttons on all mobile/tablet viewports */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .inquiry-channels {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2504,15 +2623,6 @@ section {
     
     .hero-ctas .btn {
         width: 100%;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .inquiry-channels {
-        grid-template-columns: 1fr;
     }
     
     .whatsapp-floating {
@@ -2548,5 +2658,96 @@ section {
 .admin-tab-btn.active {
     color: var(--text-primary) !important;
     border-color: var(--accent-cyan) !important;
+}
+
+/* --------------------------------------------------------------------------
+   17. MOBILE & PHONE PORTRAIT PREMIUM UX OVERRIDES
+   -------------------------------------------------------------------------- */
+
+/* Prevent circuit board graphical overflow on narrow screens */
+@media (max-width: 450px) {
+    .circuit-board-mock {
+        transform: scale(0.85);
+        transform-origin: center center;
+        margin: -20px auto !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .circuit-board-mock {
+        transform: scale(0.72);
+        transform-origin: center center;
+        margin: -40px auto !important;
+    }
+}
+
+/* Clean Header spacing & Customer Portal Button compact style for mobile */
+@media (max-width: 576px) {
+    #btn-customer-portal span {
+        display: none !important;
+    }
+    #btn-customer-portal {
+        padding: 0 !important;
+        width: 40px !important;
+        height: 40px !important;
+        justify-content: center !important;
+        border-radius: var(--border-radius-sm) !important;
+    }
+    
+    /* Optimize general modal layouts on mobile screens */
+    .modal-overlay {
+        padding: 12px !important;
+    }
+    .modal-container {
+        max-height: 95vh !important;
+        border-radius: var(--border-radius-md) !important;
+    }
+    .modal-header {
+        padding: 16px 20px !important;
+    }
+    .modal-body {
+        padding: 20px !important;
+    }
+    
+    /* Stack channel choices for forms on very small screens */
+    .inquiry-channels {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+}
+
+/* Premium active/inactive states for modal channel select buttons */
+.channel-btn {
+    background: var(--bg-primary) !important;
+    color: var(--text-secondary) !important;
+    border: 1.5px solid var(--border-color) !important;
+    box-shadow: none !important;
+    transform: none !important;
+    opacity: 0.65;
+    transition: var(--transition-smooth) !important;
+}
+
+.channel-btn:hover {
+    opacity: 0.9;
+    border-color: var(--text-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.channel-btn#channel-whatsapp.active,
+.channel-btn#store-channel-whatsapp.active {
+    background: linear-gradient(135deg, #128c7e 0%, #25d366 100%) !important;
+    color: white !important;
+    border-color: transparent !important;
+    opacity: 1;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2) !important;
+}
+
+.channel-btn#channel-email.active,
+.channel-btn#store-channel-email.active {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    border-color: transparent !important;
+    opacity: 1;
+    box-shadow: var(--gradient-glow) !important;
 }
 

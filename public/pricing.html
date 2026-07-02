@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>MK Tech Pricing | Flexible Project Packages</title>
+    <meta name="description" content="Transparent pricing tiers for custom hardware prototyping and programming. Select a package from Basic, Intermediate, Advanced, Custom, or Web Development.">
+    <meta name="keywords" content="Arduino project price, Custom electronics cost, IoT development pricing, PCB design cost, Web development package">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <span class="logo-text">MK <span class="highlight">Tech</span></span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="services.html" class="nav-item">Services</a>
+                <a href="projects.html" class="nav-item">Projects</a>
+                <a href="store.html" class="nav-item">Store <span style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; margin-left: 4px; vertical-align: middle;">Shop</span></a>
+                <a href="pricing.html" class="nav-item active">Pricing</a>
+                <a href="about.html" class="nav-item">About Us</a>
+                <a href="contact.html" class="nav-item">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="/admin" target="_blank" rel="noopener noreferrer" title="Admin Login" style="font-size:1.1rem; padding:0 8px; color:var(--text-secondary);"><i class="fa-solid fa-lock"></i></a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main" style="padding-top: 100px;">
+        <!-- Pricing Section -->
+        <section class="pricing-section" id="pricing" style="padding-top: 40px; position: relative;">
+            <div class="hero-glow-1" style="top: 15%; left: 5%;"></div>
+            <div class="hero-glow-2" style="bottom: 15%; right: 5%;"></div>
+            <div class="grid-overlay"></div>
+
+            <div class="container">
+                <div class="section-header text-center">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        <span class="badge-text">Pricing Matrix</span>
+                    </div>
+                    <h1 class="section-title">Flexible <span class="gradient-text">Project Packages</span></h1>
+                    <p class="section-subtitle">Affordable and transparent engineering tiers structured to match your project size.</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <!-- Pricing Card 1 -->
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Simple</div>
+                        <h3 class="tier-name">Basic Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-basic">2,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Ideal for school mini projects, basic sensor displays, and minor programming tweaks.</p>
+                        <ul class="pricing-features" id="features-list-basic">
+                            <li><i class="fa-solid fa-check feature-check"></i> Standard Arduino UNO/Nano Core</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Interfacing up to 2 basic sensors</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Fully commented source code</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Circuit connection diagram</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 1-Week post-delivery troubleshooting</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Basic Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 2 (Featured) -->
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge featured-badge">Popular</div>
+                        <h3 class="tier-name">Intermediate Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-intermediate">6,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Perfect for university mini-projects, complex robots, and specialized sensor controllers.</p>
+                        <ul class="pricing-features" id="features-list-intermediate">
+                            <li><i class="fa-solid fa-check feature-check"></i> ESP32 / Arduino Mega Hardware</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Up to 4 active sensors and actuators</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Custom algorithm optimization</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Step-by-step assembly guide</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> High-quality circuit design</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 2-Weeks active technical support</li>
+                        </ul>
+                        <button class="btn btn-primary pricing-btn" data-tier="Intermediate Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 3 -->
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Advanced</div>
+                        <h3 class="tier-name">Advanced Project</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-advanced">14,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Engineered for IoT hubs, web dashboards, final-year complex projects, and custom PCBs.</p>
+                        <ul class="pricing-features" id="features-list-advanced">
+                            <li><i class="fa-solid fa-check feature-check"></i> Cloud telemetry (Blynk, Adafruit, AWS)</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Custom high-density PCB schematic</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Multi-sensor data logging & dashboards</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Professional project report structure</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Live video demonstration & guide</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 30 days premium support</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Advanced Project">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                    
+                    <!-- Pricing Card 4 -->
+                    <div class="pricing-card custom-tier">
+                        <div class="pricing-badge">Bespoke</div>
+                        <h3 class="tier-name">Custom Project</h3>
+                        <div class="price-container">
+                            <span class="price-amount">Custom</span>
+                        </div>
+                        <p class="tier-desc">For specialized startup prototyping, complete industrial solutions, and research papers.</p>
+                        <ul class="pricing-features" id="features-list-custom">
+                            <li><i class="fa-solid fa-check feature-check"></i> Fully customized component sourcing</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Multi-layer high precision PCB layouts</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Full tech stack web-control integration</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Comprehensive patent/report documentation</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Continuous dedicated support</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Custom Project">Inquire Now <i class="fa-solid fa-comment-dots"></i></button>
+                    </div>
+
+                    <!-- Pricing Card 5: Web Developing -->
+                    <div class="pricing-card">
+                        <div class="pricing-badge">Web</div>
+                        <h3 class="tier-name">Web Development</h3>
+                        <div class="price-container">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="price-val-web">4,999</span>
+                            <span class="price-duration">/start</span>
+                        </div>
+                        <p class="tier-desc">Responsive websites, full-stack web apps, REST APIs, and admin dashboards built with modern tech.</p>
+                        <ul class="pricing-features" id="features-list-web">
+                            <li><i class="fa-solid fa-check feature-check"></i> Responsive frontend (HTML/CSS/JS)</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Backend API & database integration</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> Custom admin dashboard panel</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> SEO optimization & performance</li>
+                            <li><i class="fa-solid fa-check feature-check"></i> 1-month post-launch support</li>
+                        </ul>
+                        <button class="btn btn-outline-primary pricing-btn" data-tier="Web Development">Get Started <i class="fa-solid fa-arrow-right-long"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="logo-text">MK <span class="highlight">Tech</span></span>
+                </a>
+                <p class="brand-desc">Innovative Arduino Projects, custom ESP32 electronics controllers, and premium IoT solutions designed to turn your technical engineering ideas into working prototypes.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/919876543210" target="_blank" class="social-icon whatsapp dynamic-whatsapp-link" title="WhatsApp Support" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/mktech_projects" target="_blank" class="social-icon instagram dynamic-instagram-link" title="Instagram Profile" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/c/mktech_projects" target="_blank" class="social-icon youtube dynamic-youtube-link" title="YouTube Channel" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="mailto:support@mktechprojects.com" class="social-icon email dynamic-email-link" title="Email Us" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Our Sections</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Engineering Services</a></li>
+                    <li><a href="projects.html">Project Gallery</a></li>
+                    <li><a href="store.html">Pre-built Store</a></li>
+                    <li><a href="about.html">About Our Lab</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-services-list">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li><a href="services.html">Arduino Firmware</a></li>
+                    <li><a href="services.html">ESP32 & NodeMCU Controls</a></li>
+                    <li><a href="services.html">IoT Telemetry Dashboards</a></li>
+                    <li><a href="services.html">Custom PCB Schematics</a></li>
+                    <li><a href="services.html">Firmware Debugging</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Connect With Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span class="dynamic-address-text">Tech Park Sector-62, Noida, India</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span class="dynamic-email-text">support@mktechprojects.com</span></p>
+                <p><i class="fa-brands fa-whatsapp"></i> <span class="dynamic-whatsapp-text">+91 98765 43210</span></p>
+                <p class="work-hours"><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 MK Tech. All Rights Reserved. Engineered with Passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Action Button -->
+    <a href="https://wa.me/919876543210" class="whatsapp-floating dynamic-whatsapp-link" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="WhatsApp Chat">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="whatsapp-badge">Chat with Us</span>
+    </a>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import fs from 'fs/promises';
 import crypto from 'crypto';
+import { connectDB } from './db/connection.js';
 import { 
     initDb, 
     readData, 
@@ -14,9 +15,78 @@ import {
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Setup
-app.use(cors());
+// Rate limiting state
+const rateLimitBuckets = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+
+// Generic rate limiter factory
+function createRateLimiter(maxAttempts) {
+    return function rateLimit(req, res, next) {
+        const ip = req.ip || req.connection.remoteAddress;
+        const key = `${ip}:${req.path}`;
+        const now = Date.now();
+
+        if (!rateLimitBuckets.has(key)) {
+            rateLimitBuckets.set(key, []);
+        }
+
+        let attempts = rateLimitBuckets.get(key);
+        attempts = attempts.filter(t => now - t < RATE_LIMIT_WINDOW);
+        rateLimitBuckets.set(key, attempts);
+
+        if (attempts.length >= maxAttempts) {
+            return res.status(429).json({
+                success: false,
+                message: 'Too many requests. Please try again later.'
+            });
+        }
+
+        attempts.push(now);
+        next();
+    };
+}
+
+// Strict CORS Policy Setup (S4)
+const allowedOrigins = [
+    'http://localhost:5000',
+    'http://127.0.0.1:5000',
+    'http://[::1]:5000',
+    'http://localhost:5001',
+    'http://127.0.0.1:5001',
+    'http://[::1]:5001',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://[::1]:3000'
+];
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no Origin (same-origin browser requests, curl, etc.)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            console.warn(`\x1b[33mCORS Warn:\x1b[0m Access denied for origin: \x1b[31m${origin}\x1b[0m`);
+            const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true
+}));
+
 app.use(express.json({ limit: '10mb' })); // Allows large base64 image uploads
+
+// Security Headers Middleware (S3)
+app.use((req, res, next) => {
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader(
+        'Content-Security-Policy',
+        "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://images.unsplash.com; connect-src 'self'; frame-ancestors 'none';"
+    );
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+});
 
 // Custom request logging middleware (premium look)
 app.use((req, res, next) => {
@@ -25,8 +95,22 @@ app.use((req, res, next) => {
     next();
 });
 
-// Serve frontend static assets from public/ folder
-app.use(express.static('public'));
+// Serve frontend static assets from public/ folder without caching for development
+app.use(express.static('public', { maxAge: 0 }));
+
+// Admin shorthand redirect
+app.get('/admin', (req, res) => {
+    res.redirect('/admin.html');
+});
+
+// Favicon handler
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile(path.resolve('public', 'favicon.ico'), (err) => {
+        if (err) {
+            res.status(204).end();
+        }
+    });
+});
 
 /* ==========================================================================
    AUTHENTICATION MIDDLEWARE
@@ -115,15 +199,14 @@ async function saveBase64Image(base64Str) {
 app.get('/api/auth/status', async (req, res) => {
     try {
         const auth = await readData('auth');
-        const isDefault = verifyPassword('admin123', auth.salt, auth.hash);
-        return res.json({ passcodeCustomized: !isDefault });
+        return res.json({ passcodeCustomized: true });
     } catch (error) {
         return res.json({ passcodeCustomized: true });
     }
 });
 
 // Admin Login
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', createRateLimiter(5), async (req, res) => {
     const { passcode } = req.body;
     
     if (!passcode) {
@@ -200,7 +283,7 @@ app.get('/api/projects', async (req, res) => {
 
 // Add Project Card
 app.post('/api/projects', authenticateToken, async (req, res) => {
-    const { title, category, tags, description, image } = req.body;
+    const { title, category, tags, description, image, showOnHomepage } = req.body;
 
     if (!title || !category || !tags || !description) {
         return res.status(400).json({ success: false, message: 'Missing required project fields.' });
@@ -218,7 +301,8 @@ app.post('/api/projects', authenticateToken, async (req, res) => {
             category,
             tags: Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()),
             description,
-            image: imagePath
+            image: imagePath,
+            showOnHomepage: showOnHomepage !== undefined ? showOnHomepage : true
         };
 
         projects.unshift(newProject);
@@ -234,7 +318,7 @@ app.post('/api/projects', authenticateToken, async (req, res) => {
 // Modify Project Card
 app.put('/api/projects/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
-    const { title, category, tags, description, image } = req.body;
+    const { title, category, tags, description, image, showOnHomepage } = req.body;
 
     try {
         const projects = await readData('projects');
@@ -253,7 +337,8 @@ app.put('/api/projects/:id', authenticateToken, async (req, res) => {
             category: category || projects[index].category,
             tags: tags ? (Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim())) : projects[index].tags,
             description: description || projects[index].description,
-            image: imagePath || projects[index].image
+            image: imagePath || projects[index].image,
+            showOnHomepage: showOnHomepage !== undefined ? showOnHomepage : projects[index].showOnHomepage
         };
 
         await writeData('projects', projects);
@@ -438,7 +523,7 @@ app.get('/api/inquiries', authenticateToken, async (req, res) => {
 });
 
 // Add New Inquiry
-app.post('/api/inquiries', async (req, res) => {
+app.post('/api/inquiries', createRateLimiter(10), async (req, res) => {
     const { name, phone, email, category, project, message } = req.body;
 
     if (!name || (!phone && !email) || !message) {
@@ -505,7 +590,7 @@ app.post('/api/inquiries/clear', authenticateToken, async (req, res) => {
    ========================================================================== */
 
 // Check customer auth / check by phone number
-app.post('/api/customer/auth', async (req, res) => {
+app.post('/api/customer/auth', createRateLimiter(10), async (req, res) => {
     let { phone } = req.body;
     if (!phone) {
         return res.status(400).json({ success: false, message: 'Phone number is required.' });
@@ -519,7 +604,18 @@ app.post('/api/customer/auth', async (req, res) => {
         const customer = customers.find(c => c.phone.replace(/\D/g, '') === normalizedPhone);
 
         if (customer) {
-            return res.json({ success: true, exists: true, customer });
+            // Return only necessary fields, not full PII
+            return res.json({
+                success: true,
+                exists: true,
+                customer: {
+                    id: customer.id,
+                    name: customer.name,
+                    phone: customer.phone,
+                    address: customer.address,
+                    dateJoined: customer.dateJoined
+                }
+            });
         } else {
             return res.json({ success: true, exists: false, message: 'Customer not registered.' });
         }
@@ -530,7 +626,7 @@ app.post('/api/customer/auth', async (req, res) => {
 });
 
 // Register customer
-app.post('/api/customer/register', async (req, res) => {
+app.post('/api/customer/register', createRateLimiter(5), async (req, res) => {
     const { name, phone, address } = req.body;
 
     if (!name || !phone || !address) {
@@ -566,7 +662,7 @@ app.post('/api/customer/register', async (req, res) => {
 });
 
 // Update customer profile
-app.put('/api/customer/profile', async (req, res) => {
+app.put('/api/customer/profile', createRateLimiter(10), async (req, res) => {
     const { name, phone, address } = req.body;
 
     if (!phone || !name || !address) {
@@ -597,12 +693,47 @@ app.put('/api/customer/profile', async (req, res) => {
 });
 
 /* ==========================================================================
-   INITIALIZE SERVER
-   ========================================================================== */
+    CUSTOM 404 HANDLER
+    ========================================================================== */
+app.use((req, res) => {
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ success: false, message: 'API endpoint not found.' });
+    }
+    res.status(404).send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>404 - Page Not Found | MK Tech</title>
+        <link rel="stylesheet" href="/style.css">
+        <style>
+            body { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 20px; }
+            .error-container { max-width: 500px; }
+            .error-code { font-size: 6rem; font-weight: 800; color: var(--accent-cyan); line-height: 1; margin-bottom: 8px; }
+            .error-title { font-size: 1.5rem; margin-bottom: 12px; }
+            .error-text { color: var(--text-secondary); margin-bottom: 32px; }
+            .btn { display: inline-flex; align-items: center; gap: 8px; }
+        </style>
+        </head>
+        <body class="dark-theme">
+            <div class="error-container">
+                <div class="error-code">404</div>
+                <h1 class="error-title">Page Not Found</h1>
+                <p class="error-text">The page you are looking for does not exist or has been moved.</p>
+                <a href="/" class="btn btn-primary"><i class="fa-solid fa-house"></i> Back to Home</a>
+            </div>
+        </body>
+        </html>
+    `);
+});
+
+/* ==========================================================================
+    INITIALIZE SERVER
+    ========================================================================== */
 async function startServer() {
     try {
+        await connectDB();
         await initDb();
-        console.log('Database persistence files loaded and seeded successfully.');
+        console.log('MongoDB collections seeded successfully.');
         
         app.listen(PORT, () => {
             console.log(`\n\x1b[32m===================================================\x1b[0m`);

@@ -15,6 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let inquiries = [];
     let passcodeCustomized = false;
 
+    // Escape HTML to prevent XSS
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     // Retrieve JWT session tokens
     function getAuthHeader() {
         const token = sessionStorage.getItem('mktech_admin_token');
@@ -42,9 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionStorage.removeItem('mktech_admin_authenticated');
                 sessionStorage.removeItem('mktech_admin_token');
                 
-                // Close modals
-                if (typeof adminDashboardModal !== 'undefined') {
-                    closeModal(adminDashboardModal);
+                // Close dashboard
+                if (typeof adminDashboardSection !== 'undefined') {
+                    adminDashboardSection.classList.add('hidden');
                 }
                 
                 showToast('Admin session expired. Please re-authenticate.', 'error');
@@ -64,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/projects');
             projects = await response.json();
             renderGallery();
+            renderHomepageProjects();
         } catch (err) {
             console.error('Failed to load project database:', err);
             showToast('Failed to retrieve project database.', 'error');
@@ -161,6 +170,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPriceList('features-list-intermediate', profile.featuresIntermediate || '');
         renderPriceList('features-list-advanced', profile.featuresAdvanced || '');
         renderPriceList('features-list-custom', profile.featuresCustom || '');
+
+        // Web Development pricing
+        const webSpan = document.getElementById('price-val-web');
+        if (webSpan) webSpan.textContent = profile.priceWeb || '4,999';
+        renderPriceList('features-list-web', profile.featuresWeb || '');
     }
 
     async function initSecurity() {
@@ -177,11 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateAuthHint() {
         const authHintEl = document.getElementById('auth-hint-text');
         if (authHintEl) {
-            if (!passcodeCustomized) {
-                authHintEl.innerHTML = 'Default passcode is <code class="code-box">admin123</code>';
-            } else {
-                authHintEl.innerHTML = 'Passcode has been customized. Enter your custom passcode.';
-            }
+            authHintEl.textContent = 'Enter your admin passcode to access the dashboard.';
         }
     }
 
@@ -224,28 +234,37 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.padding = '16px';
             card.style.width = '100%';
             
+            const safeName = escapeHtml(inq.name);
+            const safeDate = escapeHtml(inq.date);
+            const safePhone = escapeHtml(inq.phone);
+            const safeEmail = escapeHtml(inq.email);
+            const safeCategory = escapeHtml(inq.category);
+            const safeProject = escapeHtml(inq.project || '');
+            const safeMessage = escapeHtml(inq.message);
+            const waPhone = inq.phone.replace(/\D/g, '');
+
             card.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px dashed var(--border-color); padding-bottom: 8px;">
                     <div>
-                        <strong style="color: var(--accent-cyan); font-size: 0.95rem;">${inq.name}</strong>
-                        <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 8px;">(${inq.date})</span>
+                        <strong style="color: var(--accent-cyan); font-size: 0.95rem;">${safeName}</strong>
+                        <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 8px;">(${safeDate})</span>
                     </div>
                     <button type="button" class="action-icon-btn delete-inq-btn" data-id="${inq.id}" title="Delete Inquiry" style="width: 28px; height: 28px;">
                         <i class="fa-solid fa-trash-can" style="font-size: 0.8rem;"></i>
                     </button>
                 </div>
                 <div style="font-size: 0.85rem; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; color: var(--text-secondary);">
-                    <div><i class="fa-solid fa-phone"></i> ${inq.phone}</div>
-                    <div><i class="fa-solid fa-envelope"></i> ${inq.email}</div>
-                    <div><i class="fa-solid fa-layer-group"></i> ${inq.category}</div>
-                    ${inq.project ? `<div><i class="fa-solid fa-microchip"></i> <strong>${inq.project}</strong></div>` : ''}
+                    <div><i class="fa-solid fa-phone"></i> ${safePhone}</div>
+                    <div><i class="fa-solid fa-envelope"></i> ${safeEmail}</div>
+                    <div><i class="fa-solid fa-layer-group"></i> ${safeCategory}</div>
+                    ${inq.project ? `<div><i class="fa-solid fa-microchip"></i> <strong>${safeProject}</strong></div>` : ''}
                 </div>
-                <div style="font-size: 0.9rem; color: var(--text-primary); background-color: var(--bg-primary); padding: 10px; border-radius: 4px; border-left: 3px solid var(--accent-blue); white-space: pre-wrap; word-break: break-word;">${inq.message}</div>
+                <div style="font-size: 0.9rem; color: var(--text-primary); background-color: var(--bg-primary); padding: 10px; border-radius: 4px; border-left: 3px solid var(--accent-blue); white-space: pre-wrap; word-break: break-word;">${safeMessage}</div>
                 <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px;">
-                    <a href="mailto:${inq.email}?subject=Inquiry Reply - MK Tech" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; height: 28px;">
+                    <a href="mailto:${safeEmail}?subject=Inquiry Reply - MK Tech" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.75rem; height: 28px;">
                         <i class="fa-regular fa-envelope"></i> Email Reply
                     </a>
-                    <a href="https://wa.me/${inq.phone.replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(inq.name)}%2C%20this%20is%20MK%20Tech%20replying%20to%20your%20inquiry." target="_blank" class="btn btn-success" style="padding: 6px 12px; font-size: 0.75rem; height: 28px; background: #128c7e; box-shadow: none;">
+                    <a href="https://wa.me/${waPhone}?text=Hi%20${encodeURIComponent(inq.name)}%2C%20this%20is%20MK%20Tech%20replying%20to%20your%20inquiry." target="_blank" class="btn btn-success" style="padding: 6px 12px; font-size: 0.75rem; height: 28px; background: #128c7e; box-shadow: none;">
                         <i class="fa-brands fa-whatsapp"></i> WhatsApp Reply
                     </a>
                 </div>
@@ -295,8 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Modals
     const inquiryModal = document.getElementById('inquiry-modal');
-    const adminAuthModal = document.getElementById('admin-auth-modal');
-    const adminDashboardModal = document.getElementById('admin-dashboard-modal');
+    const adminAuthSection = document.getElementById('admin-auth-section');
+    const adminDashboardSection = document.getElementById('admin-dashboard-section');
     
     // Forms & Inputs
     const mainContactForm = document.getElementById('main-contact-form');
@@ -312,8 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminTabButtons = document.querySelectorAll('.admin-tab-btn');
     const adminTabContents = document.querySelectorAll('.admin-tab-content');
     const inquiryCloseBtn = document.getElementById('inquiry-close-btn');
-    const adminAuthCloseBtn = document.getElementById('admin-auth-close-btn');
-    const adminDashboardCloseBtn = document.getElementById('admin-dashboard-close-btn');
     const adminCancelEditBtn = document.getElementById('admin-cancel-edit-btn');
     
     // Admin Specific Form controls
@@ -397,29 +414,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cachedTheme === 'light') {
             body.classList.remove('dark-theme');
             body.classList.add('light-theme');
-            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            if (themeToggleBtn) themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
         } else {
             body.classList.remove('light-theme');
             body.classList.add('dark-theme');
-            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            if (themeToggleBtn) themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
         }
     }
 
-    themeToggleBtn.addEventListener('click', () => {
-        if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme');
-            body.classList.add('light-theme');
-            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            localStorage.setItem('mktech_theme', 'light');
-            showToast('Light theme activated!', 'info');
-        } else {
-            body.classList.remove('light-theme');
-            body.classList.add('dark-theme');
-            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-            localStorage.setItem('mktech_theme', 'dark');
-            showToast('Dark theme activated!', 'info');
-        }
-    });
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+                localStorage.setItem('mktech_theme', 'light');
+                showToast('Light theme activated!', 'info');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+                localStorage.setItem('mktech_theme', 'dark');
+                showToast('Dark theme activated!', 'info');
+            }
+        });
+    }
 
     initTheme();
 
@@ -428,57 +447,64 @@ document.addEventListener('DOMContentLoaded', () => {
        -------------------------------------------------------------------------- */
     // Scroll event: dynamic glass styling
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 40) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        if (navbar) {
+            if (window.scrollY > 40) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         }
     });
 
     // Mobile Hamburger toggle
-    hamburgerMenuBtn.addEventListener('click', () => {
-        hamburgerMenuBtn.classList.toggle('active');
-        navLinksList.classList.toggle('active');
-    });
-
-    // Close mobile nav when link is clicked
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', () => {
-            hamburgerMenuBtn.classList.remove('active');
-            navLinksList.classList.remove('active');
+    if (hamburgerMenuBtn && navLinksList) {
+        hamburgerMenuBtn.addEventListener('click', () => {
+            hamburgerMenuBtn.classList.toggle('active');
+            navLinksList.classList.toggle('active');
         });
-    });
+
+        // Close mobile nav when link is clicked
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                hamburgerMenuBtn.classList.remove('active');
+                navLinksList.classList.remove('active');
+            });
+        });
+    }
 
     // Highlight navigation items as user scrolls (Intersection Observer)
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-item');
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '-30% 0px -60% 0px', // Trigger near screen middle
-        threshold: 0
-    };
+    if (sections.length > 0 && navItems.length > 0) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -60% 0px', // Trigger near screen middle
+            threshold: 0
+        };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                navItems.forEach(item => {
-                    item.classList.remove('active');
-                    if (item.getAttribute('href') === `#${id}`) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-        });
-    }, observerOptions);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === `#${id}` || item.getAttribute('href') === `index.html#${id}`) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
 
-    sections.forEach(section => observer.observe(section));
+        sections.forEach(section => observer.observe(section));
+    }
 
     /* --------------------------------------------------------------------------
        6. RENDER LOGIC: PROJECT GALLERY
        -------------------------------------------------------------------------- */
     function renderGallery() {
+        if (!projectsGrid) return;
         projectsGrid.innerHTML = '';
         
         const filtered = projects.filter(proj => {
@@ -539,22 +565,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Filter Pills Listener
-    filterPillsContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('pill')) {
-            document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            currentCategory = e.target.dataset.category;
-            renderGallery();
+    // Homepage Featured Projects (only showOnHomepage === true)
+    function renderHomepageProjects() {
+        const grid = document.getElementById('homepage-projects-grid');
+        if (!grid) return;
+
+        const featured = projects.filter(p => p.showOnHomepage !== false);
+
+        if (featured.length === 0) {
+            grid.innerHTML = `<div class="loader-placeholder"><p>No featured projects available.</p></div>`;
+            return;
         }
-    });
+
+        grid.innerHTML = '';
+        featured.forEach(proj => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            const tagsHTML = proj.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('');
+            card.innerHTML = `
+                <div class="project-image-wrapper">
+                    <img src="${proj.image}" alt="${proj.title}" loading="lazy">
+                    <span class="project-category-badge">${proj.category}</span>
+                </div>
+                <div class="project-info">
+                    <div class="project-tags">${tagsHTML}</div>
+                    <h3>${proj.title}</h3>
+                    <p>${proj.description}</p>
+                    <div class="project-card-footer">
+                        <a href="projects.html" class="btn btn-outline-primary">
+                            View Details <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Filter Pills Listener
+    if (filterPillsContainer) {
+        filterPillsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('pill')) {
+                document.querySelectorAll('.pill').forEach(pill => pill.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                currentCategory = e.target.dataset.category;
+                renderGallery();
+            }
+        });
+    }
 
     // Real-time Search Listener
-    searchInput.addEventListener('input', (e) => {
-        currentSearchQuery = e.target.value;
-        renderGallery();
-    });
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value;
+            renderGallery();
+        });
+    }
 
     // Initial render
     renderGallery();
@@ -574,30 +641,26 @@ document.addEventListener('DOMContentLoaded', () => {
         body.style.overflow = ''; // Unlock scroll
     }
 
-    // Closing listeners
-    inquiryCloseBtn.addEventListener('click', () => closeModal(inquiryModal));
-    adminAuthCloseBtn.addEventListener('click', () => {
-        closeModal(adminAuthModal);
-        adminAuthForm.reset();
-        document.getElementById('auth-error-msg').style.display = 'none';
-    });
-    adminDashboardCloseBtn.addEventListener('click', () => closeModal(adminDashboardModal));
+    function showAdminAuth() {
+        if (adminAuthSection) adminAuthSection.classList.remove('hidden');
+        if (adminDashboardSection) adminDashboardSection.classList.add('hidden');
+    }
 
-    // Outer click closes active modals
-    window.addEventListener('click', (e) => {
-        if (e.target === inquiryModal) closeModal(inquiryModal);
-        if (e.target === adminAuthModal) {
-            closeModal(adminAuthModal);
-            adminAuthForm.reset();
-            document.getElementById('auth-error-msg').style.display = 'none';
-        }
-        if (e.target === adminDashboardModal) closeModal(adminDashboardModal);
-    });
+    function showAdminDashboard() {
+        if (adminAuthSection) adminAuthSection.classList.add('hidden');
+        if (adminDashboardSection) adminDashboardSection.classList.remove('hidden');
+    }
+
+    // Closing listeners
+    if (inquiryCloseBtn && inquiryModal) {
+        inquiryCloseBtn.addEventListener('click', () => closeModal(inquiryModal));
+    }
 
     /* --------------------------------------------------------------------------
        9. PROJECT INQUIRY SYSTEM
        -------------------------------------------------------------------------- */
     function openInquiryModal(projectId) {
+        if (!inquiryProjectId || !inquiryProjectName || !inquiryModal) return;
         const proj = projects.find(p => p.id === projectId);
         if (!proj) return;
         
@@ -605,7 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inquiryProjectName.textContent = proj.title;
         
         // Reset inquiry form details
-        projectInquiryForm.reset();
+        if (projectInquiryForm) projectInquiryForm.reset();
         
         // Default to WhatsApp
         setInquiryChannel('whatsapp');
@@ -616,102 +679,100 @@ document.addEventListener('DOMContentLoaded', () => {
     function setInquiryChannel(channel) {
         currentInquiryChannel = channel;
         
-        channelWhatsappBtn.classList.remove('active');
-        channelEmailBtn.classList.remove('active');
+        if (channelWhatsappBtn) channelWhatsappBtn.classList.remove('active');
+        if (channelEmailBtn) channelEmailBtn.classList.remove('active');
         
         if (channel === 'whatsapp') {
-            channelWhatsappBtn.classList.add('active');
+            if (channelWhatsappBtn) channelWhatsappBtn.classList.add('active');
         } else {
-            channelEmailBtn.classList.add('active');
+            if (channelEmailBtn) channelEmailBtn.classList.add('active');
         }
     }
 
-    channelWhatsappBtn.addEventListener('click', () => setInquiryChannel('whatsapp'));
-    channelEmailBtn.addEventListener('click', () => setInquiryChannel('email'));
+    if (channelWhatsappBtn) channelWhatsappBtn.addEventListener('click', () => setInquiryChannel('whatsapp'));
+    if (channelEmailBtn) channelEmailBtn.addEventListener('click', () => setInquiryChannel('email'));
 
     // Inquiry form submit handler
-    projectInquiryForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('inquiry-name').value.trim();
-        const phone = document.getElementById('inquiry-phone').value.trim();
-        const email = document.getElementById('inquiry-email').value.trim();
-        const details = document.getElementById('inquiry-details').value.trim();
-        const projName = inquiryProjectName.textContent;
+    let isSubmittingInquiry = false;
+    if (projectInquiryForm) {
+        projectInquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isSubmittingInquiry) return;
+            isSubmittingInquiry = true;
+            
+            const name = document.getElementById('inquiry-name').value.trim();
+            const phone = document.getElementById('inquiry-phone').value.trim();
+            const email = document.getElementById('inquiry-email').value.trim();
+            const details = document.getElementById('inquiry-details').value.trim();
+            const projName = inquiryProjectName.textContent;
 
-        if (!phone && !email) {
-            showToast('Please provide at least a Phone Number or an Email Address.', 'error');
-            return;
-        }
+            if (!phone && !email) {
+                isSubmittingInquiry = false;
+                showToast('Please provide at least a Phone Number or an Email Address.', 'error');
+                return;
+            }
 
-        if (currentInquiryChannel === 'whatsapp') {
-            // Build direct WhatsApp link
-            const whatsappText = `Hi MK Tech!\n\nI want to inquire about the project: *${projName}*.\n\n*My Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Email: ${email}\n\n*Customization Requirements:*\n${details || 'None specified'}`;
-            const encodedText = encodeURIComponent(whatsappText);
-            const whatsappUrl = `https://wa.me/919876543210?text=${encodedText}`;
-            
-            closeModal(inquiryModal);
-            showToast('Routing to WhatsApp...', 'success');
-            
-            // Redirect in a new tab
-            window.open(whatsappUrl, '_blank');
-        } else {
-            // Send inquiry to backend server
-            const payload = {
-                name,
-                phone,
-                email,
-                category: 'Inquiry Card',
-                project: projName,
-                message: details || 'No additional customization requirements specified.'
-            };
-            
-            fetch('/api/inquiries', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data && data.success) {
-                    inquiries.unshift(data.inquiry);
-                    renderInbox();
-                    closeModal(inquiryModal);
-                    showToast('Inquiry submitted successfully! Saved in your Dashboard Inbox.', 'success');
-                } else {
-                    showToast('Failed to submit inquiry. Try again.', 'error');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                showToast('Failed to submit inquiry. Network error.', 'error');
-            });
-        }
-    });
+            const submitBtn = projectInquiryForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
+
+            if (currentInquiryChannel === 'whatsapp') {
+                // Build direct WhatsApp link
+                const cleanWhatsapp = (profile.whatsapp || '+91 98765 43210').replace(/\D/g, '');
+                const whatsappText = `Hi MK Tech!\n\nI want to inquire about the project: *${projName}*.\n\n*My Details:*\n- Name: ${name}\n- Phone: ${phone}\n- Email: ${email}\n\n*Customization Requirements:*\n${details || 'None specified'}`;
+                const encodedText = encodeURIComponent(whatsappText);
+                const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodedText}`;
+                
+                closeModal(inquiryModal);
+                showToast('Routing to WhatsApp...', 'success');
+                if (submitBtn) submitBtn.disabled = false;
+                isSubmittingInquiry = false;
+                
+                // Redirect in a new tab
+                window.open(whatsappUrl, '_blank');
+            } else {
+                // Send inquiry to backend server
+                const payload = {
+                    name,
+                    phone,
+                    email,
+                    category: 'Inquiry Card',
+                    project: projName,
+                    message: details || 'No additional customization requirements specified.'
+                };
+                
+                fetch('/api/inquiries', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (submitBtn) submitBtn.disabled = false;
+                    isSubmittingInquiry = false;
+                    if (data && data.success) {
+                        inquiries.unshift(data.inquiry);
+                        renderInbox();
+                        closeModal(inquiryModal);
+                        showToast('Inquiry submitted successfully! Saved in your Dashboard Inbox.', 'success');
+                    } else {
+                        showToast('Failed to submit inquiry. Try again.', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (submitBtn) submitBtn.disabled = false;
+                    isSubmittingInquiry = false;
+                    showToast('Failed to submit inquiry. Network error.', 'error');
+                });
+            }
+        });
+    }
 
     // Trigger Inquiry prefill from Pricing Matrix
     document.querySelectorAll('.pricing-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const tier = btn.dataset.tier;
-            
-            // Open contact section and prefill
-            const selectElement = document.getElementById('contact-requirement-select');
-            
-            if (tier.includes('Basic')) {
-                selectElement.value = 'Arduino';
-            } else if (tier.includes('Intermediate')) {
-                selectElement.value = 'ESP32';
-            } else if (tier.includes('Advanced')) {
-                selectElement.value = 'IoT';
-            } else {
-                selectElement.value = 'Other';
-            }
-            
-            document.getElementById('contact-message').value = `Hi MK Tech team, I would like to purchase or learn more details regarding the ${tier} package. Please contact me with details.`;
-            
-            // Scroll smoothly to contact
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-            showToast(`Selected pricing tier: ${tier}. Contact form pre-filled!`, 'info');
+            window.location.href = `contact.html?tier=${encodeURIComponent(tier)}`;
         });
     });
 
@@ -719,19 +780,29 @@ document.addEventListener('DOMContentLoaded', () => {
        10. ADMIN DASHBOARD AUTHENTICATION
        -------------------------------------------------------------------------- */
     function checkAdminAccess() {
+        window.location.href = 'admin.html';
+    }
+
+    function checkAdminAccessOnAdminPage() {
         const sessionAuth = sessionStorage.getItem('mktech_admin_authenticated');
         if (sessionAuth === 'true') {
             openAdminDashboard();
         } else {
-            openModal(adminAuthModal);
-            document.getElementById('admin-passcode').focus();
+            showAdminAuth();
+            const passcodeEl = document.getElementById('admin-passcode');
+            if (passcodeEl) passcodeEl.focus();
         }
     }
+
     // Secret Triggers: Double click on any MK Tech logo brand area
     logoAreas.forEach(logo => {
         logo.addEventListener('dblclick', (e) => {
             e.preventDefault();
-            checkAdminAccess();
+            if (window.location.pathname.includes('admin.html') || window.location.pathname.endsWith('/admin')) {
+                checkAdminAccessOnAdminPage();
+            } else {
+                checkAdminAccess();
+            }
         });
         logo.setAttribute('title', 'Double-click logo to manage projects');
     });
@@ -740,42 +811,55 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
             e.preventDefault();
-            checkAdminAccess();
+            if (window.location.pathname.includes('admin.html') || window.location.pathname.endsWith('/admin')) {
+                checkAdminAccessOnAdminPage();
+            } else {
+                checkAdminAccess();
+            }
         }
     });
 
-    adminAuthForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const codeInput = document.getElementById('admin-passcode').value;
-        
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ passcode: codeInput })
-            });
-            const data = await response.json();
+    // Auto check admin access on admin page load
+    if (window.location.pathname.includes('admin.html') || window.location.pathname.endsWith('/admin')) {
+        setTimeout(checkAdminAccessOnAdminPage, 100);
+    }
+
+    if (adminAuthForm) {
+        adminAuthForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const passcodeEl = document.getElementById('admin-passcode');
+            const codeInput = passcodeEl ? passcodeEl.value : '';
             
-            if (response.ok && data && data.success) {
-                sessionStorage.setItem('mktech_admin_token', data.token);
-                sessionStorage.setItem('mktech_admin_authenticated', 'true');
-                closeModal(adminAuthModal);
-                adminAuthForm.reset();
-                document.getElementById('auth-error-msg').style.display = 'none';
-                showToast('Access Granted. Opening Lab Manager Dashboard.', 'success');
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ passcode: codeInput })
+                });
+                const data = await response.json();
                 
-                // Initialize inquiries list (loads records since authenticated!)
-                initInquiries();
-                openAdminDashboard();
-            } else {
-                document.getElementById('auth-error-msg').style.display = 'block';
-                showToast(data.message || 'Incorrect passcode. Access Denied.', 'error');
+                if (response.ok && data && data.success) {
+                    sessionStorage.setItem('mktech_admin_token', data.token);
+                    sessionStorage.setItem('mktech_admin_authenticated', 'true');
+                    adminAuthForm.reset();
+                    const errEl = document.getElementById('auth-error-msg');
+                    if (errEl) errEl.style.display = 'none';
+                    showToast('Access Granted. Opening Lab Manager Dashboard.', 'success');
+                    
+                    // Initialize inquiries list (loads records since authenticated!)
+                    initInquiries();
+                    openAdminDashboard();
+                } else {
+                    const errEl = document.getElementById('auth-error-msg');
+                    if (errEl) errEl.style.display = 'block';
+                    showToast(data.message || 'Incorrect passcode. Access Denied.', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Authentication failed. Server error.', 'error');
             }
-        } catch (err) {
-            console.error(err);
-            showToast('Authentication failed. Server error.', 'error');
-        }
-    });
+        });
+    }
 
     /* --------------------------------------------------------------------------
        11. ADMIN CRUD INTERFACES & IMAGE UPLOADS
@@ -818,6 +902,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (intermediatePriceInput) intermediatePriceInput.value = profile.priceIntermediate || '6,999';
         if (advancedPriceInput) advancedPriceInput.value = profile.priceAdvanced || '14,999';
 
+        // Seed web development price
+        const webPriceInput = document.getElementById('admin-price-web');
+        if (webPriceInput) webPriceInput.value = profile.priceWeb || '4,999';
+
         // Seed pricing features textareas
         const basicFeatsInput = document.getElementById('admin-features-basic');
         const intermediateFeatsInput = document.getElementById('admin-features-intermediate');
@@ -828,6 +916,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (intermediateFeatsInput) intermediateFeatsInput.value = profile.featuresIntermediate || '';
         if (advancedFeatsInput) advancedFeatsInput.value = profile.featuresAdvanced || '';
         if (customFeatsInput) customFeatsInput.value = profile.featuresCustom || '';
+
+        // Seed web development features
+        const webFeatsInput = document.getElementById('admin-features-web');
+        if (webFeatsInput) webFeatsInput.value = profile.featuresWeb || '';
 
         // Reset Tab active states
         adminTabButtons.forEach(btn => btn.classList.remove('active'));
@@ -855,7 +947,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof renderAdminStoreList === 'function') {
             renderAdminStoreList();
         }
-        openModal(adminDashboardModal);
+        showAdminDashboard();
     }
 
     // Reset dropzone & previews
@@ -869,34 +961,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // File dropzone trigger click
-    adminImageDropzone.addEventListener('click', () => adminImageFileInput.click());
+    if (adminImageDropzone && adminImageFileInput) {
+        adminImageDropzone.addEventListener('click', () => adminImageFileInput.click());
+    }
 
     // File Drag/Drop Styling
-    ['dragenter', 'dragover'].forEach(eventName => {
-        adminImageDropzone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            adminImageDropzone.classList.add('dragover');
-        }, false);
-    });
+    if (adminImageDropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            adminImageDropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                adminImageDropzone.classList.add('dragover');
+            }, false);
+        });
 
-    ['dragleave', 'drop'].forEach(eventName => {
-        adminImageDropzone.addEventListener(eventName, (e) => {
-            e.preventDefault();
-            adminImageDropzone.classList.remove('dragover');
-        }, false);
-    });
+        ['dragleave', 'drop'].forEach(eventName => {
+            adminImageDropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                adminImageDropzone.classList.remove('dragover');
+            }, false);
+        });
+
+        // Dropzone Drop event
+        adminImageDropzone.addEventListener('drop', (e) => {
+            const file = e.dataTransfer.files[0];
+            processImageFile(file);
+        });
+    }
 
     // File input change handler (Base64 file reader)
-    adminImageFileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        processImageFile(file);
-    });
-
-    // Dropzone Drop event
-    adminImageDropzone.addEventListener('drop', (e) => {
-        const file = e.dataTransfer.files[0];
-        processImageFile(file);
-    });
+    if (adminImageFileInput) {
+        adminImageFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            processImageFile(file);
+        });
+    }
 
     function processImageFile(file) {
         if (!file) return;
@@ -927,9 +1025,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Remove uploaded image preview click
-    adminImageRemoveBtn.addEventListener('click', () => {
-        resetImageUploadState();
-    });
+    if (adminImageRemoveBtn) {
+        adminImageRemoveBtn.addEventListener('click', () => {
+            resetImageUploadState();
+        });
+    }
 
     // Render Admin panel list
     function renderAdminProjectsList() {
@@ -945,15 +1045,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.className = 'admin-item-card';
             
+            const safeTitle = escapeHtml(proj.title);
             item.innerHTML = `
                 <div class="admin-item-thumb">
-                    <img src="${proj.image}" alt="">
+                    <img src="${proj.image}" alt="${safeTitle}">
                 </div>
                 <div class="admin-item-details">
-                    <h5>${proj.title}</h5>
-                    <span>${proj.category}</span>
+                    <h5>${safeTitle}</h5>
+                    <span>${escapeHtml(proj.category)}</span>
                 </div>
                 <div class="admin-item-actions">
+                    <div class="admin-item-toggle" title="Show on Homepage">
+                        <label class="toggle-label">
+                            <input type="checkbox" class="homepage-toggle" data-id="${proj.id}" ${proj.showOnHomepage !== false ? 'checked' : ''}>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                     <button type="button" class="action-icon-btn edit-btn" data-id="${proj.id}" title="Edit Project">
                         <i class="fa-solid fa-pen"></i>
                     </button>
@@ -981,6 +1088,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 startEditProject(pid);
             });
         });
+
+        // Homepage toggle triggers
+        adminProjectsList.querySelectorAll('.homepage-toggle').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const pid = this.dataset.id;
+                toggleProjectHomepage(pid, this.checked);
+            });
+        });
+    }
+
+    async function toggleProjectHomepage(id, show) {
+        const projIndex = projects.findIndex(p => p.id === id);
+        if (projIndex === -1) return;
+
+        const data = await apiFetch(`/api/projects/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ showOnHomepage: show })
+        });
+
+        if (data && data.success) {
+            projects[projIndex].showOnHomepage = show;
+            renderAdminProjectsList();
+            renderHomepageProjects();
+            showToast(`Project visibility ${show ? 'enabled' : 'disabled'} on homepage.`, 'success');
+        } else {
+            // Revert checkbox on failure
+            renderAdminProjectsList();
+        }
     }
 
     // Action CRUD: Delete
@@ -998,6 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Re-render
                 renderAdminProjectsList();
                 renderGallery();
+                renderHomepageProjects();
                 showToast(`Deleted "${title}" successfully.`, 'success');
                 
                 // If deleting the active editing card, reset editing state
@@ -1021,6 +1157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('admin-proj-category').value = proj.category;
         document.getElementById('admin-proj-tags').value = proj.tags.join(', ');
         document.getElementById('admin-proj-desc').value = proj.description;
+        document.getElementById('admin-proj-show-homepage').checked = proj.showOnHomepage !== false;
         
         // Reset Visual uploader
         resetImageUploadState();
@@ -1059,70 +1196,77 @@ document.addEventListener('DOMContentLoaded', () => {
     adminCancelEditBtn.addEventListener('click', cancelEditMode);
 
     // Save Admin project form Submit
-    adminProjectForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    if (adminProjectForm) {
+        adminProjectForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        const title = document.getElementById('admin-proj-title').value.trim();
-        const category = document.getElementById('admin-proj-category').value;
-        const rawTags = document.getElementById('admin-proj-tags').value;
-        const description = document.getElementById('admin-proj-desc').value.trim();
-        const urlInput = adminImageUrlInput.value.trim();
+            const title = document.getElementById('admin-proj-title').value.trim();
+            const category = document.getElementById('admin-proj-category').value;
+            const rawTags = document.getElementById('admin-proj-tags').value;
+            const description = document.getElementById('admin-proj-desc').value.trim();
+            const urlInput = adminImageUrlInput.value.trim();
 
-        // Process Tags list
-        const tags = rawTags.split(',')
-                            .map(tag => tag.trim())
-                            .filter(tag => tag.length > 0);
+            // Process Tags list
+            const tags = rawTags.split(',')
+                                .map(tag => tag.trim())
+                                .filter(tag => tag.length > 0);
 
-        // Get Visual Image value: Preference is base64 file upload, then absolute link, then generic electronics fallback
-        let image = 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=80'; // fallback generic circuit
-        
-        if (uploadedImageBase64) {
-            image = uploadedImageBase64;
-        } else if (urlInput) {
-            image = urlInput;
-        }
-
-        const payload = {
-            title,
-            category,
-            tags,
-            description,
-            image
-        };
-
-        if (isEditingProject) {
-            // UPDATE EXISITING
-            const data = await apiFetch(`/api/projects/${editProjectId}`, {
-                method: 'PUT',
-                body: JSON.stringify(payload)
-            });
+            // Get Visual Image value: Preference is base64 file upload, then absolute link, then generic electronics fallback
+            let image = 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=80'; // fallback generic circuit
             
-            if (data && data.success) {
-                const projIndex = projects.findIndex(p => p.id === editProjectId);
-                if (projIndex !== -1) {
-                    projects[projIndex] = data.project;
-                }
-                showToast(`Project "${title}" updated successfully!`, 'success');
-                renderGallery();
-                renderAdminProjectsList();
-                cancelEditMode();
+            if (uploadedImageBase64) {
+                image = uploadedImageBase64;
+            } else if (urlInput) {
+                image = urlInput;
             }
-        } else {
-            // CREATE NEW
-            const data = await apiFetch('/api/projects', {
-                method: 'POST',
-                body: JSON.stringify(payload)
-            });
 
-            if (data && data.success) {
-                projects.unshift(data.project); // Place newest first
-                showToast(`New Project "${title}" added!`, 'success');
-                renderGallery();
-                renderAdminProjectsList();
-                cancelEditMode();
+                const showOnHomepage = document.getElementById('admin-proj-show-homepage').checked;
+
+            const payload = {
+                title,
+                category,
+                tags,
+                description,
+                image,
+                showOnHomepage
+            };
+
+            if (isEditingProject) {
+                // UPDATE EXISITING
+                const data = await apiFetch(`/api/projects/${editProjectId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload)
+                });
+                
+                if (data && data.success) {
+                    const projIndex = projects.findIndex(p => p.id === editProjectId);
+                    if (projIndex !== -1) {
+                        projects[projIndex] = data.project;
+                    }
+                    showToast(`Project "${title}" updated successfully!`, 'success');
+                    renderGallery();
+                    renderAdminProjectsList();
+                    renderHomepageProjects();
+                    cancelEditMode();
+                }
+            } else {
+                // CREATE NEW
+                const data = await apiFetch('/api/projects', {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+
+                if (data && data.success) {
+                    projects.unshift(data.project); // Place newest first
+                    showToast(`New Project "${title}" added!`, 'success');
+                    renderGallery();
+                    renderAdminProjectsList();
+                    renderHomepageProjects();
+                    cancelEditMode();
+                }
             }
-        }
-    });
+        });
+    }
 
     /* --------------------------------------------------------------------------
        11b. ADMIN EXTRA UTILITIES (TABS, PROFILE UPDATE, LOGOUT)
@@ -1175,10 +1319,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 priceBasic: document.getElementById('admin-price-basic').value.trim(),
                 priceIntermediate: document.getElementById('admin-price-intermediate').value.trim(),
                 priceAdvanced: document.getElementById('admin-price-advanced').value.trim(),
+                priceWeb: document.getElementById('admin-price-web').value.trim(),
                 featuresBasic: document.getElementById('admin-features-basic').value.trim(),
                 featuresIntermediate: document.getElementById('admin-features-intermediate').value.trim(),
                 featuresAdvanced: document.getElementById('admin-features-advanced').value.trim(),
-                featuresCustom: document.getElementById('admin-features-custom').value.trim()
+                featuresCustom: document.getElementById('admin-features-custom').value.trim(),
+                featuresWeb: document.getElementById('admin-features-web').value.trim()
             };
 
             const data = await apiFetch('/api/profile', {
@@ -1236,8 +1382,8 @@ document.addEventListener('DOMContentLoaded', () => {
         adminLogoutBtn.addEventListener('click', () => {
             sessionStorage.removeItem('mktech_admin_authenticated');
             sessionStorage.removeItem('mktech_admin_token');
-            closeModal(adminDashboardModal);
             showToast('Logged out from admin session.', 'info');
+            window.location.href = 'index.html'; // Redirect to landing page on logout
         });
     }
 
@@ -1346,13 +1492,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const item = document.createElement('div');
             item.className = 'admin-item-card';
             
+            const safeProdTitle = escapeHtml(prod.title);
             item.innerHTML = `
                 <div class="admin-item-thumb">
-                    <img src="${prod.image}" alt="">
+                    <img src="${prod.image}" alt="${safeProdTitle}">
                 </div>
                 <div class="admin-item-details">
-                    <h5>${prod.title}</h5>
-                    <span>₹${prod.price} (Stock: ${prod.stock})</span>
+                    <h5>${safeProdTitle}</h5>
+                    <span>₹${escapeHtml(prod.price)} (Stock: ${escapeHtml(String(prod.stock))})</span>
                 </div>
                 <div class="admin-item-actions">
                     <button type="button" class="action-icon-btn edit-store-btn" data-id="${prod.id}" title="Edit Kit">
@@ -1543,50 +1690,63 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --------------------------------------------------------------------------
        12. CONTACT FORM SUBMISSION
        -------------------------------------------------------------------------- */
-    mainContactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('contact-name').value.trim();
-        const phone = document.getElementById('contact-phone').value.trim();
-        const email = document.getElementById('contact-email').value.trim();
-        const category = document.getElementById('contact-requirement-select').value;
-        const message = document.getElementById('contact-message').value.trim();
+    let isSubmittingContact = false;
+    if (mainContactForm) {
+        mainContactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isSubmittingContact) return;
+            isSubmittingContact = true;
+            
+            const name = document.getElementById('contact-name').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const category = document.getElementById('contact-requirement-select').value;
+            const message = document.getElementById('contact-message').value.trim();
 
-        if (!phone && !email) {
-            showToast('Please provide at least a Phone Number or an Email Address.', 'error');
-            return;
-        }
-
-        const payload = {
-            name,
-            phone,
-            email,
-            category,
-            project: '',
-            message
-        };
-
-        fetch('/api/inquiries', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data && data.success) {
-                inquiries.unshift(data.inquiry);
-                renderInbox();
-                showToast(`Thank you, ${name}! Your inquiry has been received and saved in Inbox.`, 'success');
-                mainContactForm.reset();
-            } else {
-                showToast('Failed to submit message. Please try again.', 'error');
+            if (!phone && !email) {
+                isSubmittingContact = false;
+                showToast('Please provide at least a Phone Number or an Email Address.', 'error');
+                return;
             }
-        })
-        .catch(err => {
-            console.error(err);
-            showToast('Network error submitting inquiry.', 'error');
+
+            const submitBtn = mainContactForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
+
+            const payload = {
+                name,
+                phone,
+                email,
+                category,
+                project: '',
+                message
+            };
+
+            fetch('/api/inquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (submitBtn) submitBtn.disabled = false;
+                isSubmittingContact = false;
+                if (data && data.success) {
+                    inquiries.unshift(data.inquiry);
+                    renderInbox();
+                    showToast(`Thank you, ${name}! Your inquiry has been received and saved in Inbox.`, 'success');
+                    mainContactForm.reset();
+                } else {
+                    showToast('Failed to submit message. Please try again.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                if (submitBtn) submitBtn.disabled = false;
+                isSubmittingContact = false;
+                showToast('Network error submitting inquiry.', 'error');
+            });
         });
-    });
+    }
 
     // Clear All Inbox event listener
     const clearInboxBtn = document.getElementById('admin-clear-inbox-btn');

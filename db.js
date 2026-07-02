@@ -1,8 +1,10 @@
-import fs from 'fs/promises';
-import path from 'path';
 import crypto from 'crypto';
-
-const DATA_DIR = path.resolve('data');
+import Admin from './db/models/Admin.js';
+import Project from './db/models/Project.js';
+import StoreProduct from './db/models/StoreProduct.js';
+import Profile from './db/models/Profile.js';
+import Inquiry from './db/models/Inquiry.js';
+import Customer from './db/models/Customer.js';
 
 // Default initial data seeds
 const DEFAULT_PROJECTS = [
@@ -12,7 +14,8 @@ const DEFAULT_PROJECTS = [
         category: 'Arduino',
         tags: ['Ultrasonic Sensor', 'Buzzer', 'Arduino Nano'],
         description: 'An intelligent guidance cane designed for the visually impaired. It utilizes ultrasonic sensors to detect obstacles within a 2-meter range, triggering distinct audible buzzers and vibration-motor alerts for navigation safety.',
-        image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-2',
@@ -20,7 +23,8 @@ const DEFAULT_PROJECTS = [
         category: 'ESP32',
         tags: ['Neo-6M GPS', 'SIM800L', 'IoT'],
         description: 'Real-time geographical tracking device that logs location coordinates. It integrates a high-sensitivity GPS module to track physical assets, pushing coordinates to an active server dashboard and sending location links via SMS.',
-        image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-3',
@@ -28,7 +32,8 @@ const DEFAULT_PROJECTS = [
         category: 'IoT',
         tags: ['DHT22 Sensor', 'Soil Moisture', 'Wi-Fi'],
         description: 'Autonomous crop-monitoring micro-climate system. It measures air temperature, moisture, and soil dryness. Triggers water solenoid valves automatically and sends environmental analytics to a remote cloud app.',
-        image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-4',
@@ -36,7 +41,8 @@ const DEFAULT_PROJECTS = [
         category: 'ESP32',
         tags: ['Relay Board', 'Wi-Fi', 'Web Server'],
         description: 'Secure wireless controller enabling users to toggle home lights and appliances. Serves a responsive HTML/CSS control page directly from the ESP32 chip, allowing device switching over local networks.',
-        image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1558002038-1055907df827?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-5',
@@ -44,7 +50,8 @@ const DEFAULT_PROJECTS = [
         category: 'Custom',
         tags: ['L298N Driver', 'DC Motors', 'ESP32-CAM'],
         description: 'An autonomous or manually operated dual-motor robotics vehicle. Incorporates an onboard ESP32 camera module to broadcast live video feeds, controlled wirelessly via a custom joystick browser interface.',
-        image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-6',
@@ -52,7 +59,8 @@ const DEFAULT_PROJECTS = [
         category: 'Arduino',
         tags: ['RC522 RFID', 'LCD Display', 'RTC Module'],
         description: 'Digital security logging system for labs and classrooms. Reads high-frequency RFID cards, displays greetings and timestamps on an character LCD module, and logs attendance logs securely.',
-        image: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1563013544-824ae1d704d3?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-7',
@@ -60,7 +68,8 @@ const DEFAULT_PROJECTS = [
         category: 'IoT',
         tags: ['BMP280 Sensor', 'ESP8266', 'ThingSpeak'],
         description: 'Compact atmospheric telemetric center. Captures exact temperature, humidity, and barometric air pressure. Uploads detailed analytical trends to the ThingSpeak Cloud dashboard for remote weather tracking.',
-        image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     },
     {
         id: 'proj-8',
@@ -68,7 +77,8 @@ const DEFAULT_PROJECTS = [
         category: 'Arduino',
         tags: ['Soil Hydrometer', 'Submersible Pump', 'Solar'],
         description: 'Eco-conscious automated agriculture setup. Evaluates real-time moisture conditions in soil and operates a low-voltage water pump selectively. Engineered with low standby power for solar-panel setups.',
-        image: 'https://images.unsplash.com/photo-1463123081488-729f60801520?w=500&auto=format&fit=crop&q=80'
+        image: 'https://images.unsplash.com/photo-1463123081488-729f60801520?w=500&auto=format&fit=crop&q=80',
+        showOnHomepage: true
     }
 ];
 
@@ -110,6 +120,14 @@ const DEFAULT_PROFILE = {
         'Full tech stack web-control integration',
         'Comprehensive patent/report documentation',
         'Continuous dedicated support'
+    ].join('\n'),
+    priceWeb: '4,999',
+    featuresWeb: [
+        'Responsive frontend (HTML/CSS/JS)',
+        'Backend API & database integration',
+        'Custom admin dashboard panel',
+        'SEO optimization & performance',
+        '1-month post-launch support'
     ].join('\n')
 };
 
@@ -190,85 +208,110 @@ function hashPassword(password, salt) {
     return crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
 }
 
-// Atomic file writer
-async function writeJsonAtomic(filePath, data) {
-    const tempPath = `${filePath}.tmp`;
-    const jsonStr = JSON.stringify(data, null, 2);
-    
-    // Write to temp file
-    await fs.writeFile(tempPath, jsonStr, 'utf8');
-    // Rename to actual file (atomic)
-    await fs.rename(tempPath, filePath);
-}
-
-// Database initialisation
+// Database initialisation with MongoDB
 export async function initDb() {
-    // Ensure data directory exists
-    await fs.mkdir(DATA_DIR, { recursive: true });
+    const collections = {
+        projects: { model: Project, data: DEFAULT_PROJECTS },
+        profile: { model: Profile, data: DEFAULT_PROFILE },
+        inquiries: { model: Inquiry, data: DEFAULT_INQUIRIES },
+        store: { model: StoreProduct, data: DEFAULT_STORE },
+        customers: { model: Customer, data: DEFAULT_CUSTOMERS }
+    };
 
-    const projectsPath = path.join(DATA_DIR, 'projects.json');
-    const profilePath = path.join(DATA_DIR, 'profile.json');
-    const inquiriesPath = path.join(DATA_DIR, 'inquiries.json');
-    const storePath = path.join(DATA_DIR, 'store.json');
-    const authPath = path.join(DATA_DIR, 'auth.json');
-    const customersPath = path.join(DATA_DIR, 'customers.json');
-
-    // 1. Projects DB Seed
-    try {
-        await fs.access(projectsPath);
-    } catch {
-        await writeJsonAtomic(projectsPath, DEFAULT_PROJECTS);
+    for (const [key, { model, data }] of Object.entries(collections)) {
+        const count = await model.countDocuments();
+        if (count === 0) {
+            if (Array.isArray(data)) {
+                await model.insertMany(data);
+            } else {
+                await model.create(data);
+            }
+            console.log(`\x1b[32mSeeded ${key} collection\x1b[0m`);
+        }
     }
 
-    // 2. Profile DB Seed
-    try {
-        await fs.access(profilePath);
-    } catch {
-        await writeJsonAtomic(profilePath, DEFAULT_PROFILE);
-    }
-
-    // 3. Inquiries DB Seed
-    try {
-        await fs.access(inquiriesPath);
-    } catch {
-        await writeJsonAtomic(inquiriesPath, DEFAULT_INQUIRIES);
-    }
-
-    // 3b. Store DB Seed
-    try {
-        await fs.access(storePath);
-    } catch {
-        await writeJsonAtomic(storePath, DEFAULT_STORE);
-    }
-
-    // 4. Auth DB Seed (Default: admin123)
-    try {
-        await fs.access(authPath);
-    } catch {
+    // Auth DB Seed (Use env var or generate random)
+    const adminCount = await Admin.countDocuments();
+    if (adminCount === 0) {
+        const defaultPass = process.env.ADMIN_PASSCODE || 'mktech123';
         const salt = crypto.randomBytes(16).toString('hex');
-        const hash = hashPassword('admin123', salt);
-        await writeJsonAtomic(authPath, { salt, hash, tokens: [] });
-    }
-
-    // 5. Customers DB Seed
-    try {
-        await fs.access(customersPath);
-    } catch {
-        await writeJsonAtomic(customersPath, DEFAULT_CUSTOMERS);
+        const hash = hashPassword(defaultPass, salt);
+        await Admin.create({ salt, hash, tokens: [] });
+        if (!process.env.ADMIN_PASSCODE) {
+            console.log(`\x1b[33m[!] No ADMIN_PASSCODE env var set. Generated random password: ${defaultPass}\x1b[0m`);
+            console.log(`\x1b[33m[!] Set ADMIN_PASSCODE env variable to use a custom password.\x1b[0m`);
+        }
     }
 }
 
-// Read API
-export async function readData(fileName) {
-    const filePath = path.join(DATA_DIR, `${fileName}.json`);
-    const data = await fs.readFile(filePath, 'utf8');
-    return JSON.parse(data);
+// Read API - returns plain JS object or array
+export async function readData(collectionName) {
+    const modelMap = {
+        projects: Project,
+        profile: Profile,
+        inquiries: Inquiry,
+        store: StoreProduct,
+        auth: Admin,
+        customers: Customer
+    };
+    const model = modelMap[collectionName];
+    if (!model) throw new Error(`Unknown collection: ${collectionName}`);
+
+    if (collectionName === 'profile') {
+        const doc = await model.findOne().lean();
+        if (doc && doc._id) doc.id = doc._id.toString();
+        return doc || {};
+    }
+    if (collectionName === 'auth') {
+        const doc = await model.findOne().lean();
+        if (doc && doc._id) doc.id = doc._id.toString();
+        return doc || { salt: '', hash: '', tokens: [] };
+    }
+    const docs = await model.find().lean();
+    return docs.map(doc => {
+        if (doc._id) doc.id = doc._id.toString();
+        return doc;
+    });
 }
 
 // Write API
-export async function writeData(fileName, data) {
-    const filePath = path.join(DATA_DIR, `${fileName}.json`);
-    await writeJsonAtomic(filePath, data);
+export async function writeData(collectionName, data) {
+    const modelMap = {
+        projects: Project,
+        profile: Profile,
+        inquiries: Inquiry,
+        store: StoreProduct,
+        auth: Admin,
+        customers: Customer
+    };
+    const model = modelMap[collectionName];
+    if (!model) throw new Error(`Unknown collection: ${collectionName}`);
+
+    if (collectionName === 'profile') {
+        const doc = await model.findOne();
+        if (doc) {
+            Object.assign(doc, data);
+            await doc.save();
+        } else {
+            await model.create(data);
+        }
+        return;
+    }
+    if (collectionName === 'auth') {
+        const doc = await model.findOne();
+        if (doc) {
+            Object.assign(doc, data);
+            await doc.save();
+        } else {
+            await model.create(data);
+        }
+        return;
+    }
+    // Replace entire collection
+    await model.deleteMany({});
+    if (Array.isArray(data)) {
+        await model.insertMany(data);
+    }
 }
 
 // Hashing helper export

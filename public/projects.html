@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- SEO Optimization Meta Tags -->
+    <title>MK Tech Project Gallery | Arduino, ESP32 & IoT Showcases</title>
+    <meta name="description" content="Browse through MK Tech's innovative hardware project gallery. Explore real-time telemetry, robotic systems, and custom sensor-based electronic circuits.">
+    <meta name="keywords" content="Arduino project showcase, ESP32 sensor telemetry, IoT Blynk project, Custom hardware prototype, MK Tech Gallery">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <span class="logo-text">MK <span class="highlight">Tech</span></span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="services.html" class="nav-item">Services</a>
+                <a href="projects.html" class="nav-item active">Projects</a>
+                <a href="store.html" class="nav-item">Store <span style="background: var(--accent-cyan); color: #000; border-radius: 50px; padding: 2px 8px; font-size: 0.7rem; font-weight: 800; margin-left: 4px; vertical-align: middle;">Shop</span></a>
+                <a href="pricing.html" class="nav-item">Pricing</a>
+                <a href="about.html" class="nav-item">About Us</a>
+                <a href="contact.html" class="nav-item">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="/admin" target="_blank" rel="noopener noreferrer" title="Admin Login" style="font-size:1.1rem; padding:0 8px; color:var(--text-secondary);"><i class="fa-solid fa-lock"></i></a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Switch Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Open navigation menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" role="main" style="padding-top: 100px;">
+        <!-- Projects Gallery Section -->
+        <section class="projects-section" id="projects" style="padding-top: 40px; position: relative;">
+            <div class="hero-glow-1" style="top: 10%; right: 10%;"></div>
+            <div class="hero-glow-2" style="bottom: 10%; left: 10%;"></div>
+            <div class="grid-overlay"></div>
+
+            <div class="container">
+                <div class="projects-header-wrapper">
+                    <div class="section-header">
+                        <div class="badge">
+                            <span class="badge-dot"></span>
+                            <span class="badge-text">Completed Innovations</span>
+                        </div>
+                        <h1 class="section-title">Projects <span class="gradient-text">Gallery</span></h1>
+                        <p class="section-subtitle">Explore our state-of-the-art electronics assemblies and smart hardware innovations.</p>
+                    </div>
+                    
+                    <!-- Search & Filter Controls -->
+                    <div class="gallery-controls">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" id="project-search" placeholder="Search projects by name, sensor..." aria-label="Search Projects">
+                        </div>
+                        <div class="filter-pills" id="filter-pills">
+                            <button class="pill active" data-category="all">All</button>
+                            <button class="pill" data-category="Arduino">Arduino</button>
+                            <button class="pill" data-category="ESP32">ESP32</button>
+                            <button class="pill" data-category="IoT">IoT</button>
+                            <button class="pill" data-category="Custom">Custom</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dynamic Projects Grid -->
+                <div class="projects-grid" id="projects-grid">
+                    <div class="loader-placeholder">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading Project Database...
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo-area">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="logo-text">MK <span class="highlight">Tech</span></span>
+                </a>
+                <p class="brand-desc">Innovative Arduino Projects, custom ESP32 electronics controllers, and premium IoT solutions designed to turn your technical engineering ideas into working prototypes.</p>
+                <div class="social-links">
+                    <a href="https://wa.me/919876543210" target="_blank" class="social-icon whatsapp dynamic-whatsapp-link" title="WhatsApp Support" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/mktech_projects" target="_blank" class="social-icon instagram dynamic-instagram-link" title="Instagram Profile" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/c/mktech_projects" target="_blank" class="social-icon youtube dynamic-youtube-link" title="YouTube Channel" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="mailto:support@mktechprojects.com" class="social-icon email dynamic-email-link" title="Email Us" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Our Sections</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Engineering Services</a></li>
+                    <li><a href="projects.html">Project Gallery</a></li>
+                    <li><a href="store.html">Pre-built Store</a></li>
+                    <li><a href="about.html">About Our Lab</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-services-list">
+                <h3>Key Competencies</h3>
+                <ul>
+                    <li><a href="services.html">Arduino Firmware</a></li>
+                    <li><a href="services.html">ESP32 & NodeMCU Controls</a></li>
+                    <li><a href="services.html">IoT Telemetry Dashboards</a></li>
+                    <li><a href="services.html">Custom PCB Schematics</a></li>
+                    <li><a href="services.html">Firmware Debugging</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h3>Connect With Us</h3>
+                <p><i class="fa-solid fa-location-dot"></i> <span class="dynamic-address-text">Tech Park Sector-62, Noida, India</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span class="dynamic-email-text">support@mktechprojects.com</span></p>
+                <p><i class="fa-brands fa-whatsapp"></i> <span class="dynamic-whatsapp-text">+91 98765 43210</span></p>
+                <p class="work-hours"><i class="fa-solid fa-clock"></i> Mon - Sat: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-container">
+                <p>&copy; 2026 MK Tech. All Rights Reserved. Engineered with Passion.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Project Inquiry Form -->
+    <div id="inquiry-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Project <span class="gradient-text">Inquiry</span></h3>
+                <button class="modal-close" id="inquiry-close-btn" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="inquiry-subtitle">You are inquiring about: <strong id="inquiry-project-name" class="highlight">Blind Walking Stick</strong></p>
+                <form id="project-inquiry-form" class="interactive-form">
+                    <input type="hidden" id="inquiry-project-id" name="project_id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inquiry-name">Your Name <span class="required">*</span></label>
+                            <input type="text" id="inquiry-name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inquiry-phone">Phone Number <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                            <input type="tel" id="inquiry-phone" placeholder="+91 98765-43210">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inquiry-email">Email Address <span style="color: var(--accent-cyan); font-size: 0.8rem; font-weight: normal;">(Phone or Email required)</span></label>
+                        <input type="email" id="inquiry-email" placeholder="john@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inquiry-details">Additional Customization Requirements</label>
+                        <textarea id="inquiry-details" rows="4" placeholder="Mention any extra features, sensor swaps, custom dimensions, or dynamic layouts you require for this project..."></textarea>
+                    </div>
+                    
+                    <div class="inquiry-options-container">
+                        <p class="inquiry-opt-lbl">Choose inquiry channel:</p>
+                        <div class="inquiry-channels">
+                            <button type="button" class="btn btn-success channel-btn active" id="channel-whatsapp">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp Direct
+                            </button>
+                            <button type="button" class="btn btn-primary channel-btn" id="channel-email">
+                                <i class="fa-regular fa-envelope"></i> Email Form
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" id="inquiry-submit-btn">
+                        <span>Send Inquiry</span> <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Floating Action Button -->
+    <a href="https://wa.me/919876543210" class="whatsapp-floating dynamic-whatsapp-link" target="_blank" rel="noopener noreferrer" title="Chat on WhatsApp" aria-label="WhatsApp Chat">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="whatsapp-badge">Chat with Us</span>
+    </a>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js?v=2"></script>
+</body>
+</html>
